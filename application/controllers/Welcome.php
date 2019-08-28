@@ -48,4 +48,10 @@ class Welcome extends CI_Controller {
 		$this->load->view('stepOne',$data);
 	}
 
+	public function stepTwo(){
+		$datos = $this->input->post('data');
+		$data['carreras'] = $this->carreras_model->getCarrerasById($datos);
+		$this->load->view('stepTwo',$data);
+	}
+
 }
