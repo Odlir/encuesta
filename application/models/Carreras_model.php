@@ -14,4 +14,9 @@ class Carreras_model extends CI_Model{
 		return $query->result();
 	}
 
+	function getFullCarreras($arr){
+		$query = $this->db->where_in('descripcion', $arr)->get('carreras');
+		return $query->result();
+	}
+
 }

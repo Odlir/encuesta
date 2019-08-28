@@ -29,7 +29,22 @@ class Welcome extends CI_Controller {
 	}
 
 	public function stepOne(){
-		$data['carreras'] = 'odlir';
+		$mas        = $this->input->post('mas');
+		$intermedio = $this->input->post('intermedio');
+		$menos      = $this->input->post('menos');
+
+		$arrayMas           = explode(',', $mas);
+		$arrayIntermedio    = explode(',', $intermedio);
+		$arrayMenos         = explode(',', $menos);
+
+		$res = array_merge($arrayMas, $arrayIntermedio, $arrayMenos);
+		$result = $this->carreras_model->getFullCarreras($res);
+
+		$data['carreras'] = $result;
+		$data['total'] = count($result);
+		$data['mas'] = $arrayMas;
+		$data['intermedio'] = $arrayIntermedio;
+		$data['menos'] = $arrayMenos;
 		$this->load->view('stepOne',$data);
 	}
 
