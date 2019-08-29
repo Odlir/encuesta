@@ -48,10 +48,30 @@ class Welcome extends CI_Controller {
 		$this->load->view('stepOne',$data);
 	}
 
-	public function stepTwo(){
+	public function saveOptions(){
 		$datos = $this->input->post('data');
-		$data['carreras'] = $this->carreras_model->getCarrerasById($datos);
-		$this->load->view('stepTwo',$data);
+		$alumno = $this->input->post('alumno');
+		foreach ($datos as $i =>$val){
+			$objeto = new stdClass();
+			$objeto->id_alumno = $alumno;
+			$objeto->carrera_id = $val;
+			$arr[$i] = $objeto;
+		}
+		$res = $this->carreras_model->insertarOpciones($arr);
+		echo json_encode(array('res'=>$res));
+	}
+
+	public function stepTwo($id){
+		$data['preguntas'] = $this->carreras_model->getQuestions();
+		$data['carreras'] = $this->carreras_model->getOpciones($id);
+		$this->load->view('stepTwo', $data);
+	}
+
+	public function stepThree(){
+		$dts = $this->input->post('carrera');
+		$id = explode('_', $dts);
+		$data['carrera'] = $this->carreras_model->getCarreraById($id[1]);
+		$this->load->view('stepThree', $data);
 	}
 
 }

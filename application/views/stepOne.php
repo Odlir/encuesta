@@ -19,7 +19,6 @@
 		</header>
 
 	</section>
-	<div id="popup" style="display: none" title="Test de Talentos"></div>
 	<div class="main supporting" id="zen-supporting" role="main">
 		<div class="doble">
 			<p>Selecciona 3 de las carreras que más te identifiquen.</p>
@@ -40,10 +39,6 @@
 				<input type="hidden" name="mas" value="" />
 				<input type="submit" value="Continuar" />
 			</form>
-
-			<div id="loading">
-				<img id="loading-image" src="<?php echo base_url();?>assets/img/ajax-loader.gif" alt="Loading..." />
-			</div>
 			<div class="container">
 				<select multiple="multiple" class="image-picker show-html" data-limit=<?php echo $total;?>>
 					<?php foreach ($carreras as $row => $value): ?>
@@ -107,12 +102,11 @@
     });
 
     function continuar1() {
-        $("#loading").show();
         var data = $("select").data('picker').selected_values();
-        url = "<?php echo base_url()."index.php/welcome/stepTwo";?>";
-        $.post(url, {'data[]': data}, function(resp){ console.log('Chester', resp);
-            $("#loading").hide();
-            $('#container').html(resp);
+        url = "<?php echo base_url()."index.php/welcome/saveOptions";?>";
+        $.post(url, {'data[]': data, 'alumno':1}, function(resp){
+            url = "<?php echo base_url()."index.php/welcome/stepTwo/1";?>";
+            window.location.href = url;
         });
     }
 

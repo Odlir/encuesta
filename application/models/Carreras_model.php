@@ -24,4 +24,25 @@ class Carreras_model extends CI_Model{
 		return $query->result();
 	}
 
+	function getCarreraById($id){
+		$query = $this->db->where('id', $id)->get('carreras');
+		return $query->result();
+	}
+
+	function insertarOpciones($arr){
+		$query = $this->db->insert_batch('carreras_seleccionadas', $arr);
+		return $query;
+	}
+
+	function getOpciones($id){
+		$this->db->join('carreras', 'carreras.id = carreras_seleccionadas.carrera_id', 'left');
+		$query = $this->db->where_in('id_alumno', $id)->get('carreras_seleccionadas');
+		return $query->result();
+	}
+
+	function getQuestions(){
+		$query = $this->db->get('preguntas');
+		return $query->result();
+	}
+
 }

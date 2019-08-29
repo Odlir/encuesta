@@ -20,6 +20,7 @@
 
 	<!--iop-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
 	<link href="../../assets/css/main.css" rel="stylesheet" media="all">
 	<style type="text/css">
@@ -189,28 +190,12 @@
 	<script type="text/javascript" src="../../assets/js/image-picker.js"></script>
 	<!--ijn nin-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
 	<script src="../../assets/js/global.js"></script>
 	<script type="text/javascript">
 
-        $(document).ready(function() {
-            // definiendo las propiedades del popup
-            $("#popup").dialog({
-                autoOpen: false,
-                //height: 550,
-                width: 650,
-                modal: true,
-                resizable: false,
-                dialogClass: 'referencias-dialog',
-                buttons : {
-                    "Ok" : function() {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-        });
-
         $(function() {
-
             $('.list-group').on('click', 'a', function() {
                 var i = $(this).data("value");
                 $('.list-group-item.active').removeClass('active');
