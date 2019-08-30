@@ -37,27 +37,27 @@
 					</span>
 				</div>
 				<div class="card-body">
-					<form method="POST">
+					<form id="form_reg" method="POST">
 						<div class="input-group">
-							<input class="input--style-1" type="text" placeholder="NOMBRES" name="name">
+							<input class="input--style-1" type="text" placeholder="NOMBRES" name="nombres">
 						</div>
 						<div class="input-group">
-							<input class="input--style-1" type="text" placeholder="APELLIDOS" name="name">
+							<input class="input--style-1" type="text" placeholder="APELLIDOS" name="apellidos">
 						</div>
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1 js-datepicker" type="text" placeholder="FECHA DE NACIMIENTO" name="birthday">
+									<input class="input--style-1 js-datepicker" type="text" placeholder="FECHA DE NACIMIENTO" name="fecha_nacimiento">
 									<i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
 								</div>
 							</div>
 							<div class="col-2">
 								<div class="input-group">
 									<div class="rs-select2 js-select-simple select--no-search">
-										<select name="gender">
-											<option disabled="disabled" selected="selected">SEXO</option>
-											<option>Male</option>
-											<option>Female</option>
+										<select name="genero">
+											<option disabled="disabled" selected="selected">GENERO</option>
+											<option value="1">Masculino</option>
+											<option value="2">Femenino</option>
 										</select>
 										<div class="select-dropdown"></div>
 									</div>
@@ -68,11 +68,11 @@
 							<div class="col-2">
 								<div class="input-group">
 									<div class="rs-select2 js-select-simple select--no-search">
-										<select name="class">
+										<select name="colegio">
 											<option disabled="disabled" selected="selected">COLEGIO</option>
-											<option>Class 1</option>
-											<option>Class 2</option>
-											<option>Class 3</option>
+											<option></option>
+											<option value="1">Innova Ate</option>
+											<option value="2">Innova Santa Clara</option>
 										</select>
 										<div class="select-dropdown"></div>
 									</div>
@@ -81,11 +81,11 @@
 							<div class="col-2">
 								<div class="input-group">
 									<div class="rs-select2 js-select-simple select--no-search">
-										<select name="class">
+										<select name="distrito_col">
 											<option disabled="disabled" selected="selected">DISTRITO COLEGIO</option>
-											<option>Class 1</option>
-											<option>Class 2</option>
-											<option>Class 3</option>
+											<option value="0">Ate</option>
+											<option value="1">Santa Anita</option>
+											<option value="2">La Molina</option>
 										</select>
 										<div class="select-dropdown"></div>
 									</div>
@@ -96,11 +96,11 @@
 							<div class="col-2">
 								<div class="input-group">
 									<div class="rs-select2 js-select-simple select--no-search">
-										<select name="class">
+										<select name="egreso">
 											<option disabled="disabled" selected="selected">AÑO DE EGRESO</option>
-											<option>Class 1</option>
-											<option>Class 2</option>
-											<option>Class 3</option>
+											<option value="0">2019</option>
+											<option value="1">2018</option>
+											<option value="2">2017</option>
 										</select>
 										<div class="select-dropdown"></div>
 									</div>
@@ -108,34 +108,34 @@
 							</div>
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1" type="text" placeholder="DNI" name="res_code">
+									<input class="input--style-1" type="number" placeholder="DNI" name="dni">
 								</div>
 							</div>
 						</div>
 						<div class="input-group">
-							<input class="input--style-1" type="text" placeholder="DOMICILO" name="name">
+							<input class="input--style-1" type="text" placeholder="DOMICILIO" name="domicilio">
 						</div>
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1" type="text" placeholder="CELULAR" name="name">
+									<input class="input--style-1" type="number" placeholder="CELULAR" name="celular">
 								</div>
 							</div>
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1" type="text" placeholder="CELULAR DEL APODERADO" name="res_code">
+									<input class="input--style-1" type="number" placeholder="CELULAR DEL APODERADO" name="cel_apoderado">
 								</div>
 							</div>
 						</div>
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1" type="text" placeholder="EMAIL" name="name">
+									<input class="input--style-1" type="email" placeholder="EMAIL" name="email">
 								</div>
 							</div>
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1" type="text" placeholder="TELEFONO FIJO" name="res_code">
+									<input class="input--style-1" type="number" placeholder="TELEFONO FIJO" name="tel_fijo">
 								</div>
 							</div>
 						</div>
@@ -163,13 +163,15 @@
                 $.ajax({
                     type: "POST",
                     url: page,
-                    success: function(a) { console.log('odlir', JSON.parse(a));
+	                data: $('#form_reg').serialize(),
+                    success: function(a) {
                         $("#load").hide();
                         var res = JSON.parse(a);
-                        if (res.result){
-                            window.location.href = "<?php echo base_url()."index.php/welcome/test";?>";
+                        url_next = "<?php echo base_url()."index.php/welcome/test/";?>";
+                        console.log('odlir', res.id);
+                        if (res.result > 0){
+                            window.location.href = url_next + res.id;
                         }
-                        //$('#container').html(a);
                     }
                 });
 

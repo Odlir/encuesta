@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/encuesta/';
-//$config['base_url'] = 'http://talentoslinux.eastus2.cloudapp.azure.com';
+//$config['base_url'] = 'http://talentoslinux.eastus2.cloudapp.azure.com/talentos/encuesta';
 
 /*
 |--------------------------------------------------------------------------

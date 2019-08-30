@@ -6,23 +6,23 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" type="image/png" href="../../assets/img/logo_upc.png"/>
-	<link href="../../assets/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-	<link href="../../assets/css/font-awesome.min.css" rel="stylesheet" media="all">
+	<link href="<?php echo base_url();?>assets/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+	<link href="<?php echo base_url();?>assets/css/font-awesome.min.css" rel="stylesheet" media="all">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-	<link href="../../assets/css/select2.min.css" rel="stylesheet" media="all">
-	<link href="../../assets/css/daterangepicker.css" rel="stylesheet" media="all">
+	<link href="<?php echo base_url();?>assets/css/select2.min.css" rel="stylesheet" media="all">
+	<link href="<?php echo base_url();?>assets/css/daterangepicker.css" rel="stylesheet" media="all">
 	<!--iop-->
-	<link rel="stylesheet" type="text/css" href="../../assets/css/preload.css">
-	<link rel="stylesheet" type="text/css" href="../../assets/css/css.css">
-	<link rel="stylesheet" type="text/css" href="../../assets/css/image-picker.css">
-	<link rel="stylesheet" type="text/css" href="../../assets/css/jcarousel.responsive.css">
-	<link rel="stylesheet" type="text/css" href="../../assets/css/jquery-ui.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/preload.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/css.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/image-picker.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jcarousel.responsive.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery-ui.css">
 
 	<!--iop-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 
-	<link href="../../assets/css/main.css" rel="stylesheet" media="all">
+	<link href="<?php echo base_url();?>assets/css/main.css" rel="stylesheet" media="all">
 	<style type="text/css">
 		.list-group-item.active{
 			background-color: #FC2D2D !important;
@@ -70,11 +70,11 @@
 					<header role="banner">
 						<h1>
 							<div class="cabecera">
-								<?php echo 'Bienvenido';?>
+								<span><?php echo 'Bienvenido '. $alumno;?></span>
 							</div>
 						</h1>
 						<div class="derecha">
-							<img src="../../assets/img/banner_upc.jpg" style="height:auto; max-width:780px;" alt="logo">
+							<img src="<?php echo base_url();?>assets/img/banner_upc.jpg" style="height:auto; max-width:780px;" alt="logo">
 						</div>
 						<h2></h2>
 					</header>
@@ -87,7 +87,7 @@
 					</div>
 
 					<div id="loading">
-						<img id="loading-image" src="../../assets/img/ajax-loader.gif" alt="Loading..." />
+						<img id="loading-image" src="<?php echo base_url();?>assets/img/ajax-loader.gif" alt="Loading..." />
 					</div>
 
 					<div class="form" id="zen-form" role="article">
@@ -137,6 +137,7 @@
 						</div>
 
 						<form id="formulario" method="post" accept-charset="utf-8" >
+							<input type="hidden" name="id_alumno" value="<?php echo $id;?>"/>
 							<input type="hidden" name="pagina" value="general" />
 							<input type="hidden" name="mas" value="" />
 							<input type="hidden" name="intermedio" value="" />
@@ -179,20 +180,20 @@
 		</div>
 	</div>
 </div>
-	<script src="../../assets/js/jquery.min.js"></script>
-	<script src="../../assets/js/select2.min.js"></script>
-	<script src="../../assets/js/moment.min.js"></script>
-	<script src="../../assets/js/daterangepicker.js"></script>
+	<script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/select2.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
+	<script src="<?php echo base_url();?>assets/js/daterangepicker.js"></script>
 	<!--ijn nin-->
-	<script type="text/javascript" src="../../assets/js/jquery-ui-1.11.1.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/jquery.ui.touch-punch.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/jquery.jcarousel.min.js"></script>
-	<script type="text/javascript" src="../../assets/js/image-picker.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery-ui-1.11.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/jquery.jcarousel.min.js"></script>
+	<script type="text/javascript" src="<?php echo base_url();?>assets/js/image-picker.js"></script>
 	<!--ijn nin-->
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 
-	<script src="../../assets/js/global.js"></script>
+	<script src="<?php echo base_url();?>assets/js/global.js"></script>
 	<script type="text/javascript">
 
         $(function() {
@@ -286,11 +287,8 @@
         
         function continuar() {
             var num = conteoTotal();
-            if (num == 6){
-				url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
-            }else if(num > 6){
-                url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
-            }
+            url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
+
             var talentosMas = [];
             var talentosIntermedio = [];
             var talentosMenos = [];
@@ -335,9 +333,6 @@
                     dragable();
                     dropable();
                     sortable();
-                    /*$('#galeria').append(a);
-                    $("#galeria li").first().addClass("active");*/
-
                 }
             });
         }

@@ -78,6 +78,7 @@ $db['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => '',
+	/*'password' => 'e5Br6KskParlZ51y',*/
 	'database' => 'encuesta',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',

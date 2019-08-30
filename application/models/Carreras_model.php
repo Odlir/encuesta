@@ -24,6 +24,11 @@ class Carreras_model extends CI_Model{
 		return $query->result();
 	}
 
+	function getAlumnoById($id){
+		$query = $this->db->where('id', $id)->get('alumnos');
+		return $query->result();
+	}
+
 	function getCarreraById($id){
 		$query = $this->db->where('id', $id)->get('carreras');
 		return $query->result();
@@ -43,6 +48,11 @@ class Carreras_model extends CI_Model{
 	function getQuestions(){
 		$query = $this->db->get('preguntas');
 		return $query->result();
+	}
+
+	function insertAlumno($obj){
+		$this->db->insert('alumnos', $obj);
+		return $this->db->insert_id();
 	}
 
 }

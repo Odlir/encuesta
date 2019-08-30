@@ -9,7 +9,7 @@
 		<header role="banner">
 			<h1>
 				<div class="cabecera">
-					<?php echo 'Bienvenido';?>
+					<?php echo 'Bienvenido '.$alumno;?>
 				</div>
 			</h1>
 			<div class="derecha">
@@ -35,6 +35,7 @@
 			</div>
 
 			<form id="formulario" method="post" accept-charset="utf-8" >
+				<input type="hidden" name="id_alumno" id="id_alumno" value="<?php echo $id;?>" />
 				<input type="hidden" name="pagina" value="desarrollados_mas" />
 				<input type="hidden" name="mas" value="" />
 				<input type="submit" value="Continuar" />
@@ -103,9 +104,10 @@
 
     function continuar1() {
         var data = $("select").data('picker').selected_values();
+        var id = $("#id_alumno").val();
         url = "<?php echo base_url()."index.php/welcome/saveOptions";?>";
-        $.post(url, {'data[]': data, 'alumno':1}, function(resp){
-            url = "<?php echo base_url()."index.php/welcome/stepTwo/1";?>";
+        $.post(url, {'data[]': data, 'alumno':id}, function(resp){
+            url = "<?php echo base_url()."index.php/welcome/stepTwo/";?>"+id;
             window.location.href = url;
         });
     }

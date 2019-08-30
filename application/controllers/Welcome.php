@@ -15,11 +15,28 @@ class Welcome extends CI_Controller {
 	}
 
 	public function validar(){
-		echo json_encode(array('result' => true));
+		$objeto = new stdClass();
+		$objeto->nombre = $this->input->post('nombres');
+		$objeto->apellido = $this->input->post('apellidos');
+		$objeto->sexo = $this->input->post('genero');
+		$objeto->email = $this->input->post('email');
+		$objeto->colegio = $this->input->post('colegio');
+		$objeto->ubigeo_colegio = $this->input->post('distrito_col');
+		$objeto->year_egreso = $this->input->post('egreso');
+		$objeto->dni = $this->input->post('dni');
+		$objeto->domicio = $this->input->post('domicilio');
+		$objeto->celular = $this->input->post('celular');
+		$objeto->cel_apoderado = $this->input->post('cel_apoderado');
+		$objeto->telf_fijo = $this->input->post('tel_fijo');
+		$objeto->fecha_nacimiento = $this->input->post('fecha_nacimiento');
+		$res = $this->carreras_model->insertAlumno($objeto);
+		echo json_encode(array('result' => $res, 'id' => $res, 'nombre' => $this->input->post('apellidos').' '.$this->input->post('nombres')));
 	}
 
-	public function test(){
-		$data['Chestter'] = 4;
+	public function test($id){
+		$alumno = $this->carreras_model->getAlumnoById($id);
+		$data['alumno'] = $alumno[0]->nombre.' '.$alumno[0]->apellido;
+		$data['id'] = $alumno[0]->id;
 		$this->load->view('encuesta',$data);
 	}
 
@@ -29,6 +46,7 @@ class Welcome extends CI_Controller {
 	}
 
 	public function stepOne(){
+		$id         = $this->input->post('id_alumno');
 		$mas        = $this->input->post('mas');
 		$intermedio = $this->input->post('intermedio');
 		$menos      = $this->input->post('menos');
@@ -40,6 +58,9 @@ class Welcome extends CI_Controller {
 		$res = array_merge($arrayMas, $arrayIntermedio, $arrayMenos);
 		$result = $this->carreras_model->getFullCarreras($res);
 
+		$alumno = $this->carreras_model->getAlumnoById($id);
+		$data['alumno'] = $alumno[0]->nombre.' '.$alumno[0]->apellido;
+		$data['id'] = $id;
 		$data['carreras'] = $result;
 		$data['total'] = count($result);
 		$data['mas'] = $arrayMas;
@@ -64,6 +85,8 @@ class Welcome extends CI_Controller {
 	public function stepTwo($id){
 		$data['preguntas'] = $this->carreras_model->getQuestions();
 		$data['carreras'] = $this->carreras_model->getOpciones($id);
+		$alumno = $this->carreras_model->getAlumnoById($id);
+		$data['alumno'] = $alumno[0]->nombre.' '.$alumno[0]->apellido;
 		$this->load->view('stepTwo', $data);
 	}
 

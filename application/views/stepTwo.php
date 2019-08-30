@@ -39,7 +39,7 @@
 					<header role="banner">
 						<h1>
 							<div class="cabecera">
-								<?php echo 'Bienvenido';?>
+								<?php echo 'Bienvenido '.$alumno;?>
 							</div>
 						</h1>
 						<div class="derecha">
