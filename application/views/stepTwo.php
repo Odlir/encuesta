@@ -25,82 +25,108 @@
 
 	<link href="<?php echo base_url();?>assets/css/main.css" rel="stylesheet" media="all">
 	<style type="text/css">
+		.wrapper--w680 {
+			max-width: 780px !important;
+		}
 		.intro{
 			height: 120px;
+		}
+		.description{
+			padding-top: 0.7em;
+			width: 100%;
+		}
+		.imgcar{
+			width: 100%;
+			max-width: 100%;
 		}
 	</style>
 </head>
 <body>
-<div class="page-wrapper p-t-100 p-b-100 font-robo" style="padding-top: 0">
-	<div class="wrapper wrapper--w680">
-		<div id="container" class="card card-1">
-			<div class="page-wrapper">
-				<section class="intro" id="zen-intro">
-					<header role="banner">
-						<h1>
-							<div class="cabecera">
-								<?php echo 'Bienvenido '.$alumno;?>
-							</div>
-						</h1>
-						<div class="derecha">
-							<img src="<?php echo base_url();?>assets/img/banner_upc.jpg" style="height:auto; max-width:780px;" alt="logo">
-						</div>
-						<h2></h2>
-					</header>
-
-				</section>
-				<form id="respuestas">
-				<div class="main supporting carreras_final" id="zen-supporting" role="main">
-					<?php foreach ($carreras as $i => $value): ?>
-						<div class="container">
-							<div class="doble">
-								<p><?php echo $value->descripcion; ?></p>
-								<input type="hidden" id="<?php echo $i; ?>" value="<?php echo $value->descripcion . '_' . $value->carrera_id; ?>">
-							</div>
-							<div class="form" id="carreras_final" role="article">
-								<div class="container pb-2">
-									<div class="row">
-										<div class="col-md-3">
-											<img src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" alt="<?php echo $value->descripcion; ?>">
-										</div>
-										<div class="col-md-9">
-											<p><?php echo $value->texto; ?></p>
-										</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-6">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6">
+						<section class="intro" id="zen-intro">
+							<header role="banner">
+								<h1>
+									<div class="cabecera">
+										<?php echo 'Bienvenido(a) '.$alumno;?>
 									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<p>A Continuación, responde estas preguntas en relación a la carreta que figura arriba.</p>
+								</h1>
+								<div class="derecha">
+									<img src="<?php echo base_url();?>assets/img/banner_upc.jpg" style="height:auto; max-width:100%;" alt="logo">
+								</div>
+								<h2></h2>
+							</header>
+						</section>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-sm-6">
+						<form id="respuestas">
+							<div class="main supporting carreras_final" id="zen-supporting" role="main">
+								<?php foreach ($carreras as $i => $value): ?>
+									<div class="container">
+										<div class="doble">
+											<p class="font-weight-bold text-danger"><?php echo $value->descripcion; ?></p>
+											<input type="hidden" id="<?php echo $i; ?>" value="<?php echo $value->descripcion . '_' . $value->carrera_id; ?>">
 										</div>
-										<div class="col-md-12 pb-2">
-											<p>Puntúa del 1 al 5:</p>
-										</div>
-									</div>
-									<?php foreach ($preguntas as $j => $val): ?>
-									<div class="row pb-3 question">
-										<div class="col-md-12 pb-2">
-											<p><?php echo $val->descripcion?></p>
-										</div>
-										<?php for ($x = 0; $x <= 4; $x++):?>
-											<div class="col-md-1">
-												<div class="custom-control custom-radio">
-													<input value="<?php echo $x+1; ?>" type="radio" id="<?php echo 'customRadio_'.$i.'_'.$j.'_'.$x; ?>" name="<?php echo 'customRadio_'.$i.'_'.$j; ?>" class="custom-control-input">
-													<label class="custom-control-label" for="<?php echo 'customRadio_'.$i.'_'.$j.'_'.$x; ?>"><?php echo $x+1; ?></label>
+										<div class="form" id="carreras_final" role="article">
+											<div class="container pb-2">
+												<div class="row pb-4">
+													<div class="col-md-3 col-sm-6">
+														<img class="imgcar" src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" alt="<?php echo $value->descripcion; ?>">
+													</div>
+													<div class="col-md-7 col-sm-6 pt-3">
+														<p class="description"><?php echo $value->texto; ?></p>
+													</div>
+												</div>
+												<div class="row pb-3">
+													<div class="col-md-12">
+														<p>A Continuación, Responde estas preguntas en relación a la carrera.</p>
+													</div>
+													<div class="col-md-12 pb-2">
+														<p>Siendo 1 el menor interés y 5 el mayor interés:</p>
+													</div>
+												</div>
+												<?php foreach ($preguntas as $j => $val): ?>
+													<div class="row pb-3 question">
+														<div class="col-md-12 col-sm-6 pb-2">
+															<p><?php echo $val->descripcion?></p>
+														</div>
+														<?php for ($x = 0; $x <= 4; $x++):?>
+															<div class="col-md-1">
+																<div class="custom-control custom-radio">
+																	<input value="<?php echo $x+1; ?>" type="radio" id="<?php echo 'customRadio_'.$i.'_'.$j.'_'.$x; ?>" name="<?php echo 'customRadio_'.$i.'_'.$j; ?>" class="custom-control-input">
+																	<label class="custom-control-label" for="<?php echo 'customRadio_'.$i.'_'.$j.'_'.$x; ?>"><?php echo $x+1; ?></label>
+																</div>
+															</div>
+														<?php endfor;?>
+													</div>
+												<?php endforeach; ?>
+												<div class="row d-flex justify-content-center">
+													<div class="col-md-5">
+														<div class="btn-group">
+															<button onclick="atras()" type="button" class="atras btn btn-secondary"><< Atras</button>
+														</div>
+														<div class="btn-group">
+															<button onclick="next()" id="continuar" type="button" class="derecha btn btn-secondary">Continuar &rsaquo;&rsaquo;</button>
+														</div>
+													</div>
 												</div>
 											</div>
-										<?php endfor;?>
-									</div>
-									<?php endforeach; ?>
-									<div class="row">
-										<div class="col-md-3 offset-md-9">
-											<button onclick="next()" id="continuar" type="button" class="derecha btn btn-secondary">Continuar &rsaquo;&rsaquo;</button>
 										</div>
 									</div>
-								</div>
+								<?php endforeach ?>
 							</div>
-						</div>
-					<?php endforeach ?>
+							<input type="hidden" id="alumno_id" value="<?php echo $alumno_id; ?>">
+						</form>
+					</div>
 				</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -148,16 +174,28 @@
                 carrerasValues[ind] = d;
 			});
 
+            if(carrerasValues[0].val == carrerasValues[1].val || carrerasValues[1].val == carrerasValues[2].val || carrerasValues[0].val == carrerasValues[2].val){
+                Swal.fire(
+                    'El resultado de los valores seleccionados coinciden.',
+                    'Por favor, seleccionar los valores nuevamente.',
+                    'warning'
+                );
+                return false;
+            }
 	        const max = carrerasValues.reduce(function(prev, current) {
                 return (prev.val > current.val) ? prev : current
             });
-	        console.log('final', max);
+	        max.alumno_id = $('#alumno_id').val();
             url = "<?php echo base_url()."index.php/welcome/stepThree";?>";
             $.post(url, max, function(resp){
                 $('#zen-supporting').html(resp);
             });
         }
         $('#zen-supporting').slick('slickNext');
+    }
+
+    function atras() {
+        $('#zen-supporting').slick('slickPrev');
     }
 
     function checkRadios(){

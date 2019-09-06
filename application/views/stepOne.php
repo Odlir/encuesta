@@ -3,6 +3,16 @@
 		width: 200px;
 		height: 169px;
 	}
+	ul.thumbnails.image_picker_selector {
+		max-height: 100% !important;
+	}
+	.selects{
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.page-wrapper{
+		width: auto;
+	}
 </style>
 <div class="page-wrapper">
 	<section class="intro" id="zen-intro">
@@ -17,11 +27,10 @@
 			</div>
 			<h2></h2>
 		</header>
-
 	</section>
 	<div class="main supporting" id="zen-supporting" role="main">
 		<div class="doble">
-			<p>Selecciona 3 de las carreras que más te identifiquen.</p>
+			<p>Selecciona 3 carreras que más te identifiquen.</p>
 		</div>
 
 		<div class="form" id="zen-form" role="article">
@@ -41,24 +50,24 @@
 				<input type="submit" value="Continuar" />
 			</form>
 			<div class="container">
-				<select multiple="multiple" class="image-picker show-html" data-limit=<?php echo $total;?>>
-					<?php foreach ($carreras as $row => $value): ?>
-						<option data-img-src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" value="<?php echo $value->id; ?>" ></option>
-					<?php endforeach ?>
-				</select>
-			</div>
-			<div id="resumen">
-				<div class="izquierda"><input id="cantidad" readonly="readonly"/> Seleccionado de <?php echo $total; ?></div>
-				<div class="derecha">Total: <?php echo count($carreras); ?></div>
+				<div class="row">
+					<div class="col-md-12 col-sm-6 selects">
+						<select multiple="multiple" class="image-picker show-html" data-limit=<?php echo $total;?>>
+							<?php foreach ($carreras as $row => $value): ?>
+								<option data-img-src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" value="<?php echo $value->id; ?>" ></option>
+							<?php endforeach ?>
+						</select>
+						<div id="resumen">
+							<div class="izquierda"><input id="cantidad" readonly="readonly"/> Seleccionado de <?php echo '3'; ?></div>
+							<div class="derecha">Total: <?php echo count($carreras); ?></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-
 	</div>
-
 </div>
-<script type="text/javascript">
-
-
+<script>
     $("select").imagepicker({
         hide_select : true,
         show_label  : true,
@@ -70,7 +79,7 @@
         $("#cantidad").val(count);
         if (count == 3) {
             Swal.fire(
-                '¡Bien Hecho, has seleccionado 3 carreras con las que tienes mas afinidad!',
+                '¡Bien hecho, has seleccionado 3 carreras que más te identifican!',
                 'Ahora presiona el boton Continuar.',
                 'success'
             );

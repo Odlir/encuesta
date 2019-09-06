@@ -34,9 +34,18 @@ class Carreras_model extends CI_Model{
 		return $query->result();
 	}
 
+	function getUbigeo(){
+		$query = $this->db->get('ubigeo');
+		return $query->result();
+	}
+
 	function insertarOpciones($arr){
 		$query = $this->db->insert_batch('carreras_seleccionadas', $arr);
 		return $query;
+	}
+
+	function deleteOptiones($id){
+		$this->db->delete('carreras_seleccionadas', array('id_alumno' => $id));
 	}
 
 	function getOpciones($id){
@@ -53,6 +62,16 @@ class Carreras_model extends CI_Model{
 	function insertAlumno($obj){
 		$this->db->insert('alumnos', $obj);
 		return $this->db->insert_id();
+	}
+
+	function insertCarreraFinal($al, $caID){
+		$this->db->insert('carrera_final', array("alumno_id" => $al, "carrera_id" => $caID));
+		return $this->db->insert_id();
+	}
+
+	function getCarreraLast($id){
+		$query = $this->db->where('alumno_id', $id)->order_by("id", "desc")->get('carrera_final');
+		return $query->result();
 	}
 
 }

@@ -511,7 +511,7 @@ p.footer{
 }
 
 .connectedSortable {
-	min-height:50px;
+	min-height:85px;
 	margin-top: 0;
 	margin-bottom: 0;
 	margin-left: 25px !important;

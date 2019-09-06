@@ -10,7 +10,13 @@ class Welcome extends CI_Controller {
 	}
 
 	public function index(){
+		$year = (int)date("Y");
+		$years = array();
+		for ($x=$year-2; $x <= $year+2; $x++){
+			$years[] = $x;
+		}
 		$data['titulo'] = 'UPC';
+		$data['years'] = $years;
 		$this->load->view('welcome_message', $data);
 	}
 
@@ -78,6 +84,7 @@ class Welcome extends CI_Controller {
 			$objeto->carrera_id = $val;
 			$arr[$i] = $objeto;
 		}
+		$this->carreras_model->deleteOptiones($alumno);
 		$res = $this->carreras_model->insertarOpciones($arr);
 		echo json_encode(array('res'=>$res));
 	}
@@ -86,15 +93,177 @@ class Welcome extends CI_Controller {
 		$data['preguntas'] = $this->carreras_model->getQuestions();
 		$data['carreras'] = $this->carreras_model->getOpciones($id);
 		$alumno = $this->carreras_model->getAlumnoById($id);
+		$data['alumno_id'] = $id;
 		$data['alumno'] = $alumno[0]->nombre.' '.$alumno[0]->apellido;
 		$this->load->view('stepTwo', $data);
 	}
 
 	public function stepThree(){
 		$dts = $this->input->post('carrera');
+		$alumno_id = $this->input->post('alumno_id');
 		$id = explode('_', $dts);
 		$data['carrera'] = $this->carreras_model->getCarreraById($id[1]);
+		$data['alu_id'] = $alumno_id;
+		$this->carreras_model->insertCarreraFinal($alumno_id, $id[1]);
+		$this->enviarCorreo($alumno_id, $id[1], $id[0]);
 		$this->load->view('stepThree', $data);
 	}
 
+	public function getUbigeo(){
+		$ubigeo = $this->carreras_model->getUbigeo();
+		$arr = array();
+		foreach ($ubigeo as $i => $ubi){
+			$arr[] = array('id' => $ubi->id, 'text' => $ubi->departamento . ' - ' . $ubi->provincia . ' - ' . $ubi->distrito);
+		}
+		echo json_encode($arr);
+	}
+
+	public function enviarCorreo($alumno_id, $id_carrera, $carr){
+		/*$alumno = $this->carreras_model->getAlumnoById($alumno_id);
+		$carrera = $this->carreras_model->getCarreraById($id_carrera);*/
+
+		$this->load->library("phpmailer_library");
+
+		/*$objMail = $this->phpmailer_library->load();*/
+		$mail = $this->phpmailer_library->load();
+		// SMTP configuration
+		$mail->isSMTP();
+		$mail->SMTPDebug = 0;
+		$mail->SMTPAuth = true;
+		$mail->SMTPSecure = 'tls';//tls or ssl
+		$mail->Host     = 'mail.gaf.com.pe';//'smtp.example.com';
+		$mail->Username = 'rildo.gomez@gaf.com.pe';
+		$mail->Password = 'rtqDKYM6';
+		$mail->Port     = 587; //587 or 465
+
+		$mail->setFrom('rildo.gomez@gaf.com.pe');
+		$mail->addReplyTo('odlirgz@gmail.com', 'CodexWorld');
+
+		// Add a recipient
+		$mail->addAddress('odlirgz@gmail.com');
+
+		// Add cc or bcc
+		/*$mail->addCC('cc@example.com');
+		$mail->addBCC('bcc@example.com');*/
+
+		// Email subject
+		$mail->Subject = 'Test Email';
+
+		// Set email format to HTML
+		$mail->isHTML(true);
+
+		// Email body content
+		$mailContent = "<h1>Test Send HTML Email using SMTP in CodeIgniter</h1>
+            <p>This is a test email sending using SMTP mail server with PHPMailer.</p>";
+		$mail->Body = $mailContent;
+
+		// Send email
+		if(!$mail->send()){
+			echo 'Message could not be sent.';
+			echo 'Mailer Error: ' . $mail->ErrorInfo;
+		}else{
+			echo 'Message has been sent';
+		}
+
+	}
+
+	public function createpdf($id){
+		$alumno = $this->carreras_model->getAlumnoById($id);
+		$id_carrera = $this->carreras_model->getCarreraLast($id);
+		$carrera = $this->carreras_model->getCarreraById($id_carrera[0]->carrera_id);
+
+		$this->load->library(array('Pdf'));
+		$pdf = new Pdf('P','mm','A4');
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('OdLir Gomez');
+		$pdf->SetTitle('Reporte de Documento Eletrónico');
+
+		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
+		$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
+
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		//relación utilizada para ajustar la conversión de los píxeles
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// ---------------------------------------------------------
+		// establecer el modo de fuente por defecto
+		$pdf->setFontSubsetting(true);
+
+		//Si tienes que imprimir carácteres ASCII estándar, puede utilizar las fuentes básicas como
+		// Helvetica para reducir el tamaño del archivo.
+		$pdf->SetFont('Helvetica', '', 12, '', true);
+
+		// Añadir una página
+		// Este método tiene varias opciones, consulta la documentación para más información.
+		$pdf->Open();
+		$pdf->AddPage();
+
+		$style = array(
+			'border' => 0,
+			'vpadding' => 'auto',
+			'hpadding' => 'auto',
+			'fgcolor' => array(0,0,0),
+			'bgcolor' => false, //array(255,255,255)
+			'module_width' => 1, // width of a single module in points
+			'module_height' => 1 // height of a single module in points
+		);
+
+		$pdf->SetFont('helvetica', 'b', 14);
+		$pdf->setLineWidth(14);
+		$pdf->Text(75,35,'TEST DE CARRERAS UPC',FALSE,FALSE,TRUE,0,0,'L');
+
+		$pdf->SetFont('helvetica', 'b', 12);
+		$pdf->setLineWidth(14);
+		$pdf->Text(35,55,'Nombre de postulante: '.$alumno[0]->nombre.' '.$alumno[0]->apellido,FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,65,'Fecha de evaluación: '. date("d-m-Y", strtotime($alumno[0]->fecha_reg)),FALSE,FALSE,TRUE,0,0,'L');
+
+		$pdf->Text(35,70,'______________________________________________________________',FALSE,FALSE,TRUE,0,0,'L');
+
+		$pdf->SetFont('helvetica', '', 10);
+		$pdf->setLineWidth(14);
+		$pdf->Text(35,80,'Los resultados obtenidos en el test de carreras, nos llevan a recomendarte una profesión que',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,85,'potencie tu talento y vidas con pasión tu experiencia universitaria y esta es la carrera de: ',FALSE,FALSE,TRUE,0,0,'L');
+		//$pdf->Text(35,90,'carrera de: ',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->SetFont('helvetica', 'b', 14);
+		$pdf->Text(65,105, $carrera[0]->descripcion,FALSE,FALSE,TRUE,0,0,'L');
+
+		$pdf->SetFont('helvetica', '', 10);
+		//$pdf->Text(35,125, $carrera[0]->totaltexto,FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->MultiCell(148,0,$carrera[0]->totaltexto,null,'',null, null,35,120,'','','','','','','');
+		$pdf->SetFont('helvetica', 'b', 10);
+		$pdf->Text(35,170, 'Si deseas mayor información ingresa a :',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,177, $carrera[0]->url,FALSE,FALSE,TRUE,0,0,'L');
+
+		$pdf->Output('PDF/Reporte.pdf', 'D');
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
