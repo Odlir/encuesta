@@ -46,8 +46,8 @@ class Welcome extends CI_Controller {
 		$this->load->view('encuesta',$data);
 	}
 
-	public function getCarreras($id){
-		$data['carreras'] = $this->carreras_model->getCarreras($id);
+	public function getCarreras(){
+		$data['carreras'] = $this->carreras_model->getCarreras();
 		$this->load->view('carrusel',$data);
 	}
 
@@ -61,7 +61,7 @@ class Welcome extends CI_Controller {
 		$arrayIntermedio    = explode(',', $intermedio);
 		$arrayMenos         = explode(',', $menos);
 
-		$res = array_merge($arrayMas, $arrayIntermedio, $arrayMenos);
+		$res = $arrayMas; //array_merge($arrayMas, $arrayIntermedio, $arrayMenos);
 		$result = $this->carreras_model->getFullCarreras($res);
 
 		$alumno = $this->carreras_model->getAlumnoById($id);
@@ -99,13 +99,19 @@ class Welcome extends CI_Controller {
 	}
 
 	public function stepThree(){
-		$dts = $this->input->post('carrera');
+		$dts = $this->input->post('carrera1');
+		$dts1 = $this->input->post('carrera2');
+		$dts2 = $this->input->post('carrera3');
 		$alumno_id = $this->input->post('alumno_id');
-		$id = explode('_', $dts);
+		$id = explode('_', $dts['carrera']);
+		$id1 = explode('_', $dts1['carrera']);
+		$id2 = explode('_', $dts2['carrera']);
 		$data['carrera'] = $this->carreras_model->getCarreraById($id[1]);
+		$data['carrera1'] = $this->carreras_model->getCarreraById($id1[1]);
+		$data['carrera2'] = $this->carreras_model->getCarreraById($id2[1]);
 		$data['alu_id'] = $alumno_id;
-		$this->carreras_model->insertCarreraFinal($alumno_id, $id[1]);
-		$this->enviarCorreo($alumno_id, $id[1], $id[0]);
+		$this->carreras_model->insertCarreraFinal($alumno_id, $id[1], $id1[1], $id2[1]);
+		$this->enviarCorreo($alumno_id, $id, $id1, $id2);
 		$this->load->view('stepThree', $data);
 	}
 
@@ -118,15 +124,13 @@ class Welcome extends CI_Controller {
 		echo json_encode($arr);
 	}
 
-	public function enviarCorreo($alumno_id, $id_carrera, $carr){
+	public function enviarCorreo($alumno_id, $id, $id1, $id2){
 		/*$alumno = $this->carreras_model->getAlumnoById($alumno_id);
 		$carrera = $this->carreras_model->getCarreraById($id_carrera);*/
-
+		$data['alumno1'] = 'asd';
 		$this->load->library("phpmailer_library");
 
-		/*$objMail = $this->phpmailer_library->load();*/
 		$mail = $this->phpmailer_library->load();
-		// SMTP configuration
 		$mail->isSMTP();
 		$mail->SMTPDebug = 0;
 		$mail->SMTPAuth = true;
@@ -146,15 +150,10 @@ class Welcome extends CI_Controller {
 		/*$mail->addCC('cc@example.com');
 		$mail->addBCC('bcc@example.com');*/
 
-		// Email subject
-		$mail->Subject = 'Test Email';
-
-		// Set email format to HTML
+		$mail->Subject = 'Resultado Test Email';
 		$mail->isHTML(true);
 
-		// Email body content
-		$mailContent = "<h1>Test Send HTML Email using SMTP in CodeIgniter</h1>
-            <p>This is a test email sending using SMTP mail server with PHPMailer.</p>";
+		$mailContent = $this->load->view('mail', $data , TRUE);
 		$mail->Body = $mailContent;
 
 		// Send email

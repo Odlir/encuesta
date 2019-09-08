@@ -141,32 +141,7 @@
 							</div>
 
 							<div class="form" id="zen-form" role="article">
-								<p class="aclaracion">Arrastra las carreras a los buzones de abajo según te identifiquen.</p>
-								<div class="container mt-3">
-									<div class="row">
-										<div class="col-md-6 col-sm-3">
-											<div class="list-group">
-												<a data-value="1" href="#" class="list-group-item list-group-item-action active">Administración en Hotelería y Turismo</a>
-												<a data-value="3" href="#" class="list-group-item list-group-item-action">Artes Contemporáneas</a>
-												<a data-value="5" href="#" class="list-group-item list-group-item-action">Ciencias Humanas</a>
-												<a data-value="7" href="#" class="list-group-item list-group-item-action">Derecho</a>
-												<a data-value="9" href="#" class="list-group-item list-group-item-action">Economía</a>
-												<a data-value="11" href="#" class="list-group-item list-group-item-action">Ingeniería</a>
-												<a data-value="13" href="#" class="list-group-item list-group-item-action">Psicología</a>
-											</div>
-										</div>
-										<div class="col-md-6 col-sm-3">
-											<div class="list-group">
-												<a data-value="2" href="#" class="list-group-item list-group-item-action">Arquitectura</a>
-												<a data-value="4" href="#" class="list-group-item list-group-item-action">Ciencias de la Salud</a>
-												<a data-value="6" href="#" class="list-group-item list-group-item-action">Comunicaciones</a>
-												<a data-value="8" href="#" class="list-group-item list-group-item-action">Diseño</a>
-												<a data-value="10" href="#" class="list-group-item list-group-item-action">Educación</a>
-												<a data-value="12" href="#" class="list-group-item list-group-item-action">Negocios</a>
-											</div>
-										</div>
-									</div>
-								</div>
+								<p class="aclaracion">Arrastre las carreras a los buzones según su preferencia.</p>
 								<div class="continuar">
 									<button onclick="continuar()" id="continuar" type="button" class="derecha btn btn-secondary" disabled="disabled">Continuar &rsaquo;&rsaquo;</button>
 								</div>
@@ -318,41 +293,60 @@
         function conteo() {
             count = $("#galeria li").length;
             $('#cantidad').val(count);
-            if(conteoTotal() == 12){
+            if(conteoTotal() == 47){
                 $('#continuar').attr('disabled', false);
-                Swal.fire(
-                    '¡Buen Trabajo!',
-                    '¡Has seleccionado la cantidad maxima de carreras!',
-                    'success'
-                ).then((res)=>{
-                    $("#continuar").trigger("click");
-                })
+                if (conteoMayor() >= 12){
+                    Swal.fire(
+                        '¡Buen Trabajo!',
+                        '¡Has seleccionado la cantidad maxima de carreras!',
+                        'success'
+                    ).then((res)=>{
+                        $("#continuar").trigger("click");
+                    });
+                }else{
+                    Swal.fire(
+                        '',
+                        '¡Por Favor, seleccionar al menos 12 carreras con más interés!',
+                        'success'
+                    ).then((res)=>{
+                        return false;
+                    });
+                }
             }
         }
         
         function continuar() {
-            var num = conteoTotal();
-            url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
+            if (conteoMayor() >= 12){
+                url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
 
-            var talentosMas = [];
-            var talentosIntermedio = [];
-            var talentosMenos = [];
-            $("#mas ol li").each(function() { talentosMas.push($(this).text()) });
-            $("#intermedio ol li").each(function() { talentosIntermedio.push($(this).text()) });
-            $("#menos ol li").each(function() { talentosMenos.push($(this).text()) });
+                var talentosMas = [];
+                var talentosIntermedio = [];
+                var talentosMenos = [];
+                $("#mas ol li").each(function() { talentosMas.push($(this).text()) });
+                $("#intermedio ol li").each(function() { talentosIntermedio.push($(this).text()) });
+                $("#menos ol li").each(function() { talentosMenos.push($(this).text()) });
 
-            $( "input[name='mas']" ).val( talentosMas.join(','));
-            $( "input[name='intermedio']" ).val( talentosIntermedio.join(','));
-            $( "input[name='menos']" ).val( talentosMenos.join(','));
-            var formData = $("#formulario").serializeArray();
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: formData,
-                success: function(a) {
-                    $('#container').html(a);
-                }
-            });
+                $( "input[name='mas']" ).val( talentosMas.join(','));
+                $( "input[name='intermedio']" ).val( talentosIntermedio.join(','));
+                $( "input[name='menos']" ).val( talentosMenos.join(','));
+                var formData = $("#formulario").serializeArray();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: formData,
+                    success: function(a) {
+                        $('#container').html(a);
+                    }
+                });
+            }else {
+                Swal.fire(
+                    '',
+                    '¡Por Favor, seleccionar al menos 12 carreras con más interes!',
+                    'success'
+                ).then((res)=>{
+                    return false;
+                });
+            }
 
         }
 
@@ -364,9 +358,14 @@
             return total;
         }
 
-        function getCarreras(i) {
+        function conteoMayor() {
+            count1 = $("#max li").length;
+            return count1;
+        }
+
+        function getCarreras() {
             $("#galeria").empty();
-            url = "<?php echo base_url()."index.php/welcome/getCarreras/";?>"+i;
+            url = "<?php echo base_url()."index.php/welcome/getCarreras/";?>";
             $.ajax({
                 type: "GET",
                 url: url,

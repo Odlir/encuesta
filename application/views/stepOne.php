@@ -30,7 +30,7 @@
 	</section>
 	<div class="main supporting" id="zen-supporting" role="main">
 		<div class="doble">
-			<p>Selecciona 3 carreras que más te identifiquen.</p>
+			<p>Selecciona 5 carreras que más te identifiquen.</p>
 		</div>
 
 		<div class="form" id="zen-form" role="article">
@@ -57,8 +57,8 @@
 								<option data-img-src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" value="<?php echo $value->id; ?>" ></option>
 							<?php endforeach ?>
 						</select>
-						<div id="resumen">
-							<div class="izquierda"><input id="cantidad" readonly="readonly"/> Seleccionado de <?php echo '3'; ?></div>
+						<div id="resumen" class="container">
+							<div class="izquierda"><input id="cantidad" readonly="readonly"/> Seleccionado de 5</div>
 							<div class="derecha">Total: <?php echo count($carreras); ?></div>
 						</div>
 					</div>
@@ -77,9 +77,9 @@
     $( "select" ).change(function() {
         var count = $("select option:selected").length;
         $("#cantidad").val(count);
-        if (count == 3) {
+        if (count == 5) {
             Swal.fire(
-                '¡Bien hecho, has seleccionado 3 carreras que más te identifican!',
+                '¡Bien hecho, has seleccionado 5 carreras que más te identifican!',
                 'Ahora presiona el boton Continuar.',
                 'success'
             );

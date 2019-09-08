@@ -164,6 +164,12 @@
 			    }else if(i == 8){
 					con++;
                     sumTot = 0;
+			    }else if(i == 12){
+                    con++;
+                    sumTot = 0;
+			    }else if(i == 16){
+                    con++;
+                    sumTot = 0;
 			    }
                 sumTot += Number(a.value);
                 sum[con] = sumTot;
@@ -173,19 +179,14 @@
 			    d = {'carrera':$('#'+ind).val(), 'val':a};
                 carrerasValues[ind] = d;
 			});
+            var max = orderDesc(carrerasValues);
 
-            if(carrerasValues[0].val == carrerasValues[1].val || carrerasValues[1].val == carrerasValues[2].val || carrerasValues[0].val == carrerasValues[2].val){
-                Swal.fire(
-                    'El resultado de los valores seleccionados coinciden.',
-                    'Por favor, seleccionar los valores nuevamente.',
-                    'warning'
-                );
-                return false;
-            }
-	        const max = carrerasValues.reduce(function(prev, current) {
-                return (prev.val > current.val) ? prev : current
-            });
-	        max.alumno_id = $('#alumno_id').val();
+            var max = {
+                carrera1: max[0],
+                carrera2: max[1],
+                carrera3: max[2],
+                alumno_id: $('#alumno_id').val()
+            };
             url = "<?php echo base_url()."index.php/welcome/stepThree";?>";
             $.post(url, max, function(resp){
                 $('#zen-supporting').html(resp);
@@ -196,6 +197,15 @@
 
     function atras() {
         $('#zen-supporting').slick('slickPrev');
+    }
+
+    function orderDesc(carrerasValues) {
+        const arrOrder = carrerasValues.sort(function(a,b) {
+            if (a.val < b.val) { return 1; }
+            else if (a.val == b.val) { return 0; }
+            else { return -1; }
+        });
+        return arrOrder;
     }
 
     function checkRadios(){

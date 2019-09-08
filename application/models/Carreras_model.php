@@ -9,8 +9,8 @@ class Carreras_model extends CI_Model{
 		$this->load->database();
 	}
 
-	function getCarreras($id){
-		$query = $this->db->where('area_id', $id)->where('estado', '1')->get('carreras');
+	function getCarreras(){
+		$query = $this->db->where('estado', '1')->get('carreras');
 		return $query->result();
 	}
 
@@ -64,8 +64,10 @@ class Carreras_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 
-	function insertCarreraFinal($al, $caID){
+	function insertCarreraFinal($al, $caID, $caID1, $caID2){
 		$this->db->insert('carrera_final', array("alumno_id" => $al, "carrera_id" => $caID));
+		$this->db->insert('carrera_final', array("alumno_id" => $al, "carrera_id" => $caID1));
+		$this->db->insert('carrera_final', array("alumno_id" => $al, "carrera_id" => $caID2));
 		return $this->db->insert_id();
 	}
 
