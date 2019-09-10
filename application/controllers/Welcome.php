@@ -110,8 +110,9 @@ class Welcome extends CI_Controller {
 		$data['carrera1'] = $this->carreras_model->getCarreraById($id1[1]);
 		$data['carrera2'] = $this->carreras_model->getCarreraById($id2[1]);
 		$data['alu_id'] = $alumno_id;
+		$this->carreras_model->deleteLastoptions($alumno_id);
 		$this->carreras_model->insertCarreraFinal($alumno_id, $id[1], $id1[1], $id2[1]);
-		$this->enviarCorreo($alumno_id, $id, $id1, $id2);
+		$this->enviarCorreo($alumno_id, $id[1], $id1[1], $id2[1]);
 		$this->load->view('stepThree', $data);
 	}
 
@@ -125,9 +126,17 @@ class Welcome extends CI_Controller {
 	}
 
 	public function enviarCorreo($alumno_id, $id, $id1, $id2){
-		/*$alumno = $this->carreras_model->getAlumnoById($alumno_id);
-		$carrera = $this->carreras_model->getCarreraById($id_carrera);*/
-		$data['alumno1'] = 'asd';
+		$alumno = $this->carreras_model->getAlumnoById($alumno_id);
+		$carrera = $this->carreras_model->getCarreraById($id);
+		$carrera1 = $this->carreras_model->getCarreraById($id1);
+		$carrera2 = $this->carreras_model->getCarreraById($id2);
+
+		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
+		$data['alumno'] = $nombres;
+		$data['carrera'] = $carrera;
+		$data['carrera1'] = $carrera1;
+		$data['carrera2'] = $carrera2;
+
 		$this->load->library("phpmailer_library");
 
 		$mail = $this->phpmailer_library->load();
@@ -141,41 +150,46 @@ class Welcome extends CI_Controller {
 		$mail->Port     = 587; //587 or 465
 
 		$mail->setFrom('rildo.gomez@gaf.com.pe');
-		$mail->addReplyTo('odlirgz@gmail.com', 'CodexWorld');
+		$mail->addReplyTo('rildo.gomez@gaf.com.pe');
 
 		// Add a recipient
-		$mail->addAddress('odlirgz@gmail.com');
+		$mail->addAddress($alumno[0]->email);
 
 		// Add cc or bcc
 		/*$mail->addCC('cc@example.com');
 		$mail->addBCC('bcc@example.com');*/
 
-		$mail->Subject = 'Resultado Test Email';
+		$mail->Subject = 'Resultado Test UPC';
 		$mail->isHTML(true);
 
 		$mailContent = $this->load->view('mail', $data , TRUE);
 		$mail->Body = $mailContent;
 
-		// Send email
-		if(!$mail->send()){
+		/*if(!$mail->send()){
 			echo 'Message could not be sent.';
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}else{
 			echo 'Message has been sent';
-		}
-
+		}*/
 	}
 
 	public function createpdf($id){
 		$alumno = $this->carreras_model->getAlumnoById($id);
-		$id_carrera = $this->carreras_model->getCarreraLast($id);
-		$carrera = $this->carreras_model->getCarreraById($id_carrera[0]->carrera_id);
+		$carreras = $this->carreras_model->getCarreraLast($id);
+		$carrera = $this->carreras_model->getCarreraById($carreras[0]->carrera_id);
+		$carrera1 = $this->carreras_model->getCarreraById($carreras[1]->carrera_id);
+		$carrera2 = $this->carreras_model->getCarreraById($carreras[2]->carrera_id);
+		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
+		$data['alumno'] = $nombres;
+		$data['carrera'] = $carrera;
+		$data['carrera1'] = $carrera1;
+		$data['carrera2'] = $carrera2;
 
 		$this->load->library(array('Pdf'));
 		$pdf = new Pdf('P','mm','A4');
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('OdLir Gomez');
-		$pdf->SetTitle('Reporte de Documento Eletrónico');
+		$pdf->SetTitle('Test de Carreras UPC');
 
 		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
 		$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
@@ -183,30 +197,20 @@ class Welcome extends CI_Controller {
 		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
-		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 
-		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
 		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
 		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
-		//relación utilizada para ajustar la conversión de los píxeles
 		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
-		// ---------------------------------------------------------
-		// establecer el modo de fuente por defecto
 		$pdf->setFontSubsetting(true);
 
-		//Si tienes que imprimir carácteres ASCII estándar, puede utilizar las fuentes básicas como
-		// Helvetica para reducir el tamaño del archivo.
 		$pdf->SetFont('Helvetica', '', 12, '', true);
 
-		// Añadir una página
-		// Este método tiene varias opciones, consulta la documentación para más información.
 		$pdf->Open();
 		$pdf->AddPage();
 
@@ -222,7 +226,7 @@ class Welcome extends CI_Controller {
 
 		$pdf->SetFont('helvetica', 'b', 14);
 		$pdf->setLineWidth(14);
-		$pdf->Text(75,35,'TEST DE CARRERAS UPC',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(55,35,'Instrumento de Exploración Vocacional (IEV)',FALSE,FALSE,TRUE,0,0,'L');
 
 		$pdf->SetFont('helvetica', 'b', 12);
 		$pdf->setLineWidth(14);
@@ -233,20 +237,28 @@ class Welcome extends CI_Controller {
 
 		$pdf->SetFont('helvetica', '', 10);
 		$pdf->setLineWidth(14);
-		$pdf->Text(35,80,'Los resultados obtenidos en el test de carreras, nos llevan a recomendarte una profesión que',FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->Text(35,85,'potencie tu talento y vidas con pasión tu experiencia universitaria y esta es la carrera de: ',FALSE,FALSE,TRUE,0,0,'L');
-		//$pdf->Text(35,90,'carrera de: ',FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->SetFont('helvetica', 'b', 14);
-		$pdf->Text(65,105, $carrera[0]->descripcion,FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,80,'Los resultados obtenidos en el Instrumento de Exploración Vocacional, nos llevan',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,85,'a recomendarte las siguientes profesiones que potenciarán tu talento y vida con ',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,90,'pasión: ',FALSE,FALSE,TRUE,0,0,'L');
 
-		$pdf->SetFont('helvetica', '', 10);
-		//$pdf->Text(35,125, $carrera[0]->totaltexto,FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->MultiCell(148,0,$carrera[0]->totaltexto,null,'',null, null,35,120,'','','','','','','');
-		$pdf->SetFont('helvetica', 'b', 10);
-		$pdf->Text(35,170, 'Si deseas mayor información ingresa a :',FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->Text(35,177, $carrera[0]->url,FALSE,FALSE,TRUE,0,0,'L');
+		$mailContent = $this->load->view('mail', $data , TRUE);
+		$pdf->writeHTMLCell(140,'','35','75', $mailContent,'','','','','','');
 
-		$pdf->Output('PDF/Reporte.pdf', 'D');
+		$pdf->Output('PDF/Reporte.pdf', 'I');
+	}
+
+	public function pdf($id){
+		$alumno = $this->carreras_model->getAlumnoById($id);
+		$carreras = $this->carreras_model->getCarreraLast($id);
+		$carrera = $this->carreras_model->getCarreraById($carreras[0]->carrera_id);
+		$carrera1 = $this->carreras_model->getCarreraById($carreras[1]->carrera_id);
+		$carrera2 = $this->carreras_model->getCarreraById($carreras[2]->carrera_id);
+		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
+		$data['alumno'] = $nombres;
+		$data['carrera'] = $carrera;
+		$data['carrera1'] = $carrera1;
+		$data['carrera2'] = $carrera2;
+		$this->load->view('mail', $data);
 	}
 
 }

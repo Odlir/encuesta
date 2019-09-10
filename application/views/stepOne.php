@@ -19,7 +19,7 @@
 		<header role="banner">
 			<h1>
 				<div class="cabecera">
-					<?php echo 'Bienvenido '.$alumno;?>
+					<?php echo 'Bienvenido(a): '.$alumno;?>
 				</div>
 			</h1>
 			<div class="derecha">

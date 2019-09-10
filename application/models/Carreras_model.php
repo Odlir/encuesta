@@ -71,8 +71,13 @@ class Carreras_model extends CI_Model{
 		return $this->db->insert_id();
 	}
 
+	function deleteLastoptions($id){
+		$this->db->delete('carrera_final', array('alumno_id' => $id));
+	}
+
 	function getCarreraLast($id){
-		$query = $this->db->where('alumno_id', $id)->order_by("id", "desc")->get('carrera_final');
+		$this->db->join('carreras','carreras.id = carrera_final.carrera_id');
+		$query = $this->db->where('alumno_id', $id)->get('carrera_final');
 		return $query->result();
 	}
 

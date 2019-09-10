@@ -63,17 +63,17 @@
 			max-width: 240px !important;
 		}
 		#mas{
-			width: 100%;
+			width: 30%;
 			padding-right: 0px;
 			padding-left: 0px;
 		}
 		#intermedio{
-			width: 100%;
+			width: 30%;
 			padding-right: 0px;
 			padding-left: 0px;
 		}
 		#menos{
-			width: 100%;
+			width: 30%;
 			padding-right: 0px;
 			padding-left: 0px;
 		}
@@ -83,6 +83,9 @@
 		.nopad{
 			padding-right: 0px;
 			padding-left: 0px;
+		}
+		.fsize{
+			font-size: 12px;
 		}
 		@media all and (max-width: 736px) {
 			#wrapper{
@@ -106,7 +109,114 @@
 	</style>
 </head>
 <body>
-<div class="container">
+
+<div class="page-wrapper">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 col-sm-6" id="container">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-sm-6">
+							<section class="intro" id="zen-intro">
+								<header class="head" role="banner">
+									<h1>
+										<div class="cabecera">
+											<?php echo 'Bienvenido(a): '.$alumno;?>
+										</div>
+									</h1>
+									<div class="derecha">
+										<img src="<?php echo base_url();?>assets/img/banner_upc.jpg" style="height:auto; max-width:100%;" alt="logo">
+									</div>
+									<h2></h2>
+								</header>
+							</section>
+						</div>
+					</div>
+				</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-sm-6">
+							<div class="main supporting" id="zen-supporting" role="main">
+								<div class="doble">
+									<p>Agrupando <span class="rojo">mis carreras</span></p>
+								</div>
+
+								<div id="loading">
+									<img id="loading-image" src="<?php echo base_url();?>assets/img/ajax-loader.gif" alt="Loading..." />
+								</div>
+
+								<div class="form" id="zen-form" role="article">
+									<p class="aclaracion">Arrastra todas las carreras a los buzones según tú preferencia.</p>
+									<div class="continuar">
+										<button onclick="continuar()" id="continuar" type="button" class="derecha btn btn-secondary" disabled="disabled">Continuar &rsaquo;&rsaquo;</button>
+									</div>
+									<div class="container d-flex justify-content-center nopad">
+										<div class="col-md-6 col-sm-6">
+											<div id="wrapper" class="jcarousel-wrapper">
+												<div id="resumen">
+													<input id="cantidad" readonly="readonly"/> Carreras por seleccionar
+												</div>
+												<div id="carousel" style="margin: 0 auto"; class="jcarousel" >
+													<ul id="galeria">
+
+													</ul>
+												</div>
+
+												<a href="#" class="jcarousel-control-prev">&lsaquo;</a>
+												<a href="#" class="jcarousel-control-next">&rsaquo;</a>
+
+											</div>
+										</div>
+									</div>
+
+									<form id="formulario" method="post" accept-charset="utf-8" >
+										<input type="hidden" name="id_alumno" value="<?php echo $id;?>"/>
+										<input type="hidden" name="pagina" value="general" />
+										<input type="hidden" name="mas" value="" />
+										<input type="hidden" name="intermedio" value="" />
+										<input type="hidden" name="menos" value="" />
+										<input type="submit" value="Continuar" />
+									</form>
+
+									<div class="container">
+										<div class="row d-flex justify-content-center">
+											<div id="mas" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+												<h4 class="buzones-header">(+) Más Interés (12)</h4>
+												<div class="ui-widget-content">
+													<ol id="max" class="connectedSortable">
+
+													</ol>
+												</div>
+											</div>
+											<div id="intermedio" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+												<h4 class="buzones-header">Interés Intermedio</h4>
+												<div class="ui-widget-content">
+													<ol id="mid" class="connectedSortable">
+
+													</ol>
+												</div>
+											</div>
+											<div id="menos" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+												<h4 class="buzones-header">(-) Menos Interés</h4>
+												<div class="ui-widget-content">
+													<ol id="min" class="connectedSortable">
+
+													</ol>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--<div class="container">
 	<div class="row">
 		<div class="col-md-12 col-sm-6" id="container">
 			<div class="container">
@@ -116,11 +226,11 @@
 							<header class="head" role="banner">
 								<h1>
 									<div class="cabecera">
-										<?php echo 'Bienvenido(a): '.$alumno;?>
+										<?php /*echo 'Bienvenido(a): '.$alumno;*/?>
 									</div>
 								</h1>
 								<div class="derecha">
-									<img src="<?php echo base_url();?>assets/img/banner_upc.jpg" style="height:auto; max-width:100%;" alt="logo">
+									<img src="<?php /*echo base_url();*/?>assets/img/banner_upc.jpg" style="height:auto; max-width:100%;" alt="logo">
 								</div>
 								<h2></h2>
 							</header>
@@ -137,11 +247,11 @@
 							</div>
 
 							<div id="loading">
-								<img id="loading-image" src="<?php echo base_url();?>assets/img/ajax-loader.gif" alt="Loading..." />
+								<img id="loading-image" src="<?php /*echo base_url();*/?>assets/img/ajax-loader.gif" alt="Loading..." />
 							</div>
 
 							<div class="form" id="zen-form" role="article">
-								<p class="aclaracion">Arrastre las carreras a los buzones según su preferencia.</p>
+								<p class="aclaracion">Arrastra todas las carreras a los buzones según tú preferencia.</p>
 								<div class="continuar">
 									<button onclick="continuar()" id="continuar" type="button" class="derecha btn btn-secondary" disabled="disabled">Continuar &rsaquo;&rsaquo;</button>
 								</div>
@@ -165,7 +275,7 @@
 								</div>
 
 								<form id="formulario" method="post" accept-charset="utf-8" >
-									<input type="hidden" name="id_alumno" value="<?php echo $id;?>"/>
+									<input type="hidden" name="id_alumno" value="<?php /*echo $id;*/?>"/>
 									<input type="hidden" name="pagina" value="general" />
 									<input type="hidden" name="mas" value="" />
 									<input type="hidden" name="intermedio" value="" />
@@ -176,7 +286,7 @@
 								<div class="container">
 									<div class="row d-flex justify-content-center">
 										<div id="mas" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-12">
-											<h4 class="buzones-header">(+) Más Interés</h4>
+											<h4 class="buzones-header">(+) Más Interés (12)</h4>
 											<div class="ui-widget-content">
 												<ol id="max" class="connectedSortable">
 
@@ -208,7 +318,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>-->
 	<script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
 	<script src="<?php echo base_url();?>assets/js/select2.min.js"></script>
 	<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
@@ -295,7 +405,7 @@
             $('#cantidad').val(count);
             if(conteoTotal() == 47){
                 $('#continuar').attr('disabled', false);
-                if (conteoMayor() >= 12){
+                if (conteoMayor() == 12){
                     Swal.fire(
                         '¡Buen Trabajo!',
                         '¡Has seleccionado la cantidad maxima de carreras!',
@@ -306,7 +416,7 @@
                 }else{
                     Swal.fire(
                         '',
-                        '¡Por Favor, seleccionar al menos 12 carreras con más interés!',
+                        '¡Por Favor, seleccionar 12 carreras con más interés! Moviendo las carreras entre los buzones',
                         'success'
                     ).then((res)=>{
                         return false;
@@ -316,7 +426,7 @@
         }
         
         function continuar() {
-            if (conteoMayor() >= 12){
+            if (conteoMayor() == 12){
                 url = "<?php echo base_url()."index.php/welcome/stepOne";?>";
 
                 var talentosMas = [];
@@ -341,7 +451,7 @@
             }else {
                 Swal.fire(
                     '',
-                    '¡Por Favor, seleccionar al menos 12 carreras con más interes!',
+                    '¡Por Favor, seleccionar 12 carreras con más interes! Moviendo las carreras entre los buzones',
                     'success'
                 ).then((res)=>{
                     return false;
@@ -441,7 +551,16 @@
 
         function sortable(){
             $( "#mas ol, #intermedio ol, #menos ol" ).sortable({
-                connectWith: ".connectedSortable"
+                connectWith: ".connectedSortable",
+                over: function(){
+                    /*if(conteoTotal() == 48){
+                        if (conteoMayor() == 12){
+                            $('#continuar').attr('disabled', false);
+                        }else {
+                            $('#continuar').attr('disabled', true);
+                        }
+                    }*/
+                }
             }).disableSelection();
         }
 

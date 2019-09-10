@@ -39,6 +39,28 @@
 			width: 100%;
 			max-width: 100%;
 		}
+		.intro{
+			height: auto !important;
+		}
+		.head{
+			height: auto;
+		}
+		@media all and (max-width: 736px) {
+			.btn-group-xs > .btn, .btn-xs {
+				padding: .4rem .4rem;
+				font-size: .875rem;
+				line-height: .5;
+				border-radius: .2rem;
+			}
+		}
+		@media all and (max-width: 480px) {
+			.btn-group-xs > .btn, .btn-xs {
+				padding: .4rem .4rem;
+				font-size: .875rem;
+				line-height: .5;
+				border-radius: .2rem;
+			}
+		}
 	</style>
 </head>
 <body>
@@ -49,10 +71,10 @@
 				<div class="row">
 					<div class="col-md-12 col-sm-6">
 						<section class="intro" id="zen-intro">
-							<header role="banner">
+							<header class="head" role="banner">
 								<h1>
 									<div class="cabecera">
-										<?php echo 'Bienvenido(a) '.$alumno;?>
+										<?php echo 'Bienvenido(a): '.$alumno;?>
 									</div>
 								</h1>
 								<div class="derecha">
@@ -109,12 +131,12 @@
 													</div>
 												<?php endforeach; ?>
 												<div class="row d-flex justify-content-center">
-													<div class="col-md-5">
+													<div class="col-md-7">
 														<div class="btn-group">
-															<button onclick="atras()" type="button" class="atras btn btn-secondary"><< Atras</button>
+															<button onclick="atras()" type="button" class="atras btn btn-secondary btn-xs"><< Atras</button>
 														</div>
 														<div class="btn-group">
-															<button onclick="next()" id="continuar" type="button" class="derecha btn btn-secondary">Continuar &rsaquo;&rsaquo;</button>
+															<button onclick="next()" id="continuar" type="button" class="derecha btn btn-secondary btn-xs">Continuar &rsaquo;&rsaquo;</button>
 														</div>
 													</div>
 												</div>

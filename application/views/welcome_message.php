@@ -35,7 +35,7 @@
 						<img src="https://www.upc.edu.pe/static/img/logo_upc_red.png" alt="">
 					</span>
 					<span class="contact100-form-title">
-						Test de Carreras UPC
+						Instrumento de Exploración Vocacional (IEV)
 					</span>
 				</div>
 				<div class="card-body">
@@ -131,9 +131,9 @@
 							</div>
 						</div>
 						<div class="p-t-20 bot">
-							<a href="index.php/welcome/validar" id="registro" class="btn btn--radius btn--green">Iniciar test</a>
+							<a href="<?php echo base_url();?>index.php/welcome/validar" id="registro" class="btn btn--radius btn--green">Iniciar test</a>
 						</div>
-						<img id="load" class="oculto" src="assets/img/ajax-loader.gif" alt="Loading..." />
+						<img id="load" class="oculto" src="<?php echo base_url();?>assets/img/ajax-loader.gif" alt="Loading..." />
 					</form>
 				</div>
 			</div>
