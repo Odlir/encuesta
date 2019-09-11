@@ -86,8 +86,8 @@
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<div class="rs-select2 js-select-simple select--no-search">
-										<select name="egreso" class="required" required>
+									<div class="rs-select2 js-select-simple2 select--no-search">
+										<select id="egreso" name="egreso" class="required" required>
 											<option disabled="disabled" selected="selected">AÑO DE EGRESO*</option>
 											<?php foreach ($years as $y):?>
 												<option value="<?php echo $y;?>"><?php echo $y;?></option>
@@ -148,6 +148,7 @@
 	<script src="<?php echo base_url();?>assets/js/global.js"></script>
 	<script>
         $(document).ready(function() {
+            $("#egreso").select2();
             getUbigeo();
             $("#registro").click(function(ev){
 	            if (!check_required_inputs()){

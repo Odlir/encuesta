@@ -13,7 +13,7 @@
 	<link href="<?php echo base_url();?>assets/css/daterangepicker.css" rel="stylesheet" media="all">
 	<!--iop-->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/preload.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/css.css?v1.0.0">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/css.css?v1.0.2">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/image-picker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jcarousel.responsive.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery-ui.css">
@@ -87,9 +87,18 @@
 		.fsize{
 			font-size: 12px;
 		}
-		@media all and (max-width: 736px) {
+		@media all and (min-width: 576px) {
 			#wrapper{
 				width: auto;
+			}
+			.jcarousel img {
+				max-width: 150px !important;
+			}
+			.jcarousel li.active {
+				max-width: 150px !important;
+			}
+			.jcarousel {
+				width: 150px !important;
 			}
 		}
 		@media all and (max-width: 480px) {
@@ -108,15 +117,15 @@
 		}
 	</style>
 </head>
-<body>
+<body id="container">
 
 <div class="page-wrapper">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12 col-sm-6" id="container">
+			<div class="col-md-12 col-sm-12" >
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12 col-sm-6">
+						<div class="col-md-12 col-sm-12">
 							<section class="intro" id="zen-intro">
 								<header class="head" role="banner">
 									<h1>
@@ -135,7 +144,7 @@
 				</div>
 				<div class="container">
 					<div class="row">
-						<div class="col-md-12 col-sm-6">
+						<div class="col-md-12 col-sm-12">
 							<div class="main supporting" id="zen-supporting" role="main">
 								<div class="doble">
 									<p>Agrupando <span class="rojo">mis carreras</span></p>
@@ -215,110 +224,6 @@
 		</div>
 	</div>
 </div>
-
-<!--<div class="container">
-	<div class="row">
-		<div class="col-md-12 col-sm-6" id="container">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-sm-6">
-						<section class="intro" id="zen-intro">
-							<header class="head" role="banner">
-								<h1>
-									<div class="cabecera">
-										<?php /*echo 'Bienvenido(a): '.$alumno;*/?>
-									</div>
-								</h1>
-								<div class="derecha">
-									<img src="<?php /*echo base_url();*/?>assets/img/banner_upc.jpg" style="height:auto; max-width:100%;" alt="logo">
-								</div>
-								<h2></h2>
-							</header>
-						</section>
-					</div>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 col-sm-6">
-						<div class="main supporting" id="zen-supporting" role="main">
-							<div class="doble">
-								<p>Agrupando <span class="rojo">mis carreras</span></p>
-							</div>
-
-							<div id="loading">
-								<img id="loading-image" src="<?php /*echo base_url();*/?>assets/img/ajax-loader.gif" alt="Loading..." />
-							</div>
-
-							<div class="form" id="zen-form" role="article">
-								<p class="aclaracion">Arrastra todas las carreras a los buzones según tú preferencia.</p>
-								<div class="continuar">
-									<button onclick="continuar()" id="continuar" type="button" class="derecha btn btn-secondary" disabled="disabled">Continuar &rsaquo;&rsaquo;</button>
-								</div>
-								<div class="container d-flex justify-content-center nopad">
-									<div class="col-md-4 col-sm-6">
-										<div id="wrapper" class="jcarousel-wrapper">
-											<div id="resumen">
-												<input id="cantidad" readonly="readonly"/> Carreras por seleccionar
-											</div>
-											<div id="carousel" class="jcarousel">
-												<ul id="galeria">
-
-												</ul>
-											</div>
-
-											<a href="#" class="jcarousel-control-prev">&lsaquo;</a>
-											<a href="#" class="jcarousel-control-next">&rsaquo;</a>
-
-										</div>
-									</div>
-								</div>
-
-								<form id="formulario" method="post" accept-charset="utf-8" >
-									<input type="hidden" name="id_alumno" value="<?php /*echo $id;*/?>"/>
-									<input type="hidden" name="pagina" value="general" />
-									<input type="hidden" name="mas" value="" />
-									<input type="hidden" name="intermedio" value="" />
-									<input type="hidden" name="menos" value="" />
-									<input type="submit" value="Continuar" />
-								</form>
-
-								<div class="container">
-									<div class="row d-flex justify-content-center">
-										<div id="mas" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-12">
-											<h4 class="buzones-header">(+) Más Interés (12)</h4>
-											<div class="ui-widget-content">
-												<ol id="max" class="connectedSortable">
-
-												</ol>
-											</div>
-										</div>
-										<div id="intermedio" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-12">
-											<h4 class="buzones-header">Interés Intermedio</h4>
-											<div class="ui-widget-content">
-												<ol id="mid" class="connectedSortable">
-
-												</ol>
-											</div>
-										</div>
-										<div id="menos" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-12">
-											<h4 class="buzones-header">(-) Menos Interés</h4>
-											<div class="ui-widget-content">
-												<ol id="min" class="connectedSortable">
-
-												</ol>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>-->
 	<script src="<?php echo base_url();?>assets/js/jquery.min.js"></script>
 	<script src="<?php echo base_url();?>assets/js/select2.min.js"></script>
 	<script src="<?php echo base_url();?>assets/js/moment.min.js"></script>
@@ -407,11 +312,11 @@
                 $('#continuar').attr('disabled', false);
                 if (conteoMayor() == 12){
                     Swal.fire(
-                        '¡Buen Trabajo!',
-                        '¡Has seleccionado la cantidad maxima de carreras!',
+                        '¡Buen Trabajo, Has seleccionado la cantidad maxima de carreras!',
+                        'Ahora presiona el boton Continuar y/o verifica tu seleccion moviendo tus carreras entre los buzones.',
                         'success'
                     ).then((res)=>{
-                        $("#continuar").trigger("click");
+                        //$("#continuar").trigger("click");
                     });
                 }else{
                     Swal.fire(

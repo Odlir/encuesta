@@ -66,10 +66,10 @@
 <body>
 <div class="container">
 	<div class="row">
-		<div class="col-md-12 col-sm-6">
+		<div class="col-md-12 col-sm-12">
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 col-sm-6">
+					<div class="col-md-12 col-sm-12">
 						<section class="intro" id="zen-intro">
 							<header class="head" role="banner">
 								<h1>
@@ -88,7 +88,7 @@
 			</div>
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 col-sm-6">
+					<div class="col-md-12 col-sm-12">
 						<form id="respuestas">
 							<div class="main supporting carreras_final" id="zen-supporting" role="main">
 								<?php foreach ($carreras as $i => $value): ?>
@@ -100,10 +100,10 @@
 										<div class="form" id="carreras_final" role="article">
 											<div class="container pb-2">
 												<div class="row pb-4">
-													<div class="col-md-3 col-sm-6">
+													<div class="col-md-3 col-sm-12">
 														<img class="imgcar" src="<?php echo base_url();?>assets/img/talentos/fac/<?php echo $value->imagen; ?>" alt="<?php echo $value->descripcion; ?>">
 													</div>
-													<div class="col-md-7 col-sm-6 pt-3">
+													<div class="col-md-7 col-sm-12 pt-3">
 														<p class="description"><?php echo $value->texto; ?></p>
 													</div>
 												</div>
@@ -117,7 +117,7 @@
 												</div>
 												<?php foreach ($preguntas as $j => $val): ?>
 													<div class="row pb-3 question">
-														<div class="col-md-12 col-sm-6 pb-2">
+														<div class="col-md-12 col-sm-12 pb-2">
 															<p><?php echo $val->descripcion?></p>
 														</div>
 														<?php for ($x = 0; $x <= 4; $x++):?>
@@ -174,6 +174,7 @@
         slidesToShow: 1,
     });
     function next() {
+        window.scrollTo(0, 80);
         if(checkRadios()){
 			var values = getValues();
 			var con = 0;

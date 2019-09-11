@@ -145,20 +145,23 @@ class Welcome extends CI_Controller {
 		$mail->SMTPAuth = true;
 		$mail->SMTPSecure = 'tls';//tls or ssl
 		$mail->Host     = 'mail.gaf.com.pe';//'smtp.example.com';
-		$mail->Username = 'rildo.gomez@gaf.com.pe';
-		$mail->Password = 'rildo2019';
+		$mail->Username = 'encuestas.upc@gaf.com.pe';//'rildo.gomez@gaf.com.pe';
+		//$mail->Password = 'rildo2019';
+		$mail->Password = 'nVp7Dwun';
 		$mail->Port     = 587; //587 or 465
 		$mail->CharSet = "UTF-8";
 
-		$mail->setFrom('rildo.gomez@gaf.com.pe');
-		$mail->addReplyTo('rildo.gomez@gaf.com.pe');
+		$mail->setFrom('encuestas.upc@gaf.com.pe');
+		$mail->addReplyTo('encuestas.upc@gaf.com.pe');
+		/*$mail->setFrom('rildo.gomez@gaf.com.pe');
+		$mail->addReplyTo('rildo.gomez@gaf.com.pe');*/
 
 		// Add a recipient
 		$mail->addAddress($alumno[0]->email);
 
 		// Add cc or bcc
-		/*$mail->addCC('cc@example.com');
-		$mail->addBCC('bcc@example.com');*/
+		/*$mail->addCC('cc@example.com');*/
+		$mail->addBCC('humberto.gutierrezh@hotmail.com');
 
 		$attachment =  $this->createpdf(10, 'S');
 		$mail->addStringAttachment($attachment, $alumno[0]->nombre . '_' . $alumno[0]->apellido.'.pdf');
@@ -193,7 +196,7 @@ class Welcome extends CI_Controller {
 		$pdf = new Pdf('P','mm','A4');
 		$pdf->SetCreator(PDF_CREATOR);
 		$pdf->SetAuthor('OdLir Gomez');
-		$pdf->SetTitle('Test de Carreras UPC');
+		$pdf->SetTitle('Instrumento de Exploración Vocacional (IEV)');
 
 		$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
 		$pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
