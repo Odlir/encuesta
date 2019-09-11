@@ -39,7 +39,7 @@
 					<span class="pt-3 pb-3"><a class="pt-3 pb-3 desc text-dark bkc" target="_blank" href="<?php echo $carrera[0]->url; ?>"><?php echo $carrera[0]->url; ?></a></span>
 				</div>
 				<div>
-					<form id="formulario_pdf" action="<?php echo base_url(); ?>index.php/welcome/createpdf/<?php echo $alu_id; ?>">
+					<form id="formulario_pdf" action="<?php echo base_url(); ?>index.php/welcome/createpdf/<?php echo $alu_id . '/D'; ?>">
 					</form>
 				</div>
 			</div>

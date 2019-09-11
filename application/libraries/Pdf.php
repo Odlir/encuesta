@@ -11,7 +11,7 @@ class Pdf extends TCPDF
     }
     
     public function Header() {
-		$this->Image("assets/img/logo_upc.png", 20, 10, 0, 0, 'PNG', '', '', false, 150, '', false, false, 0, false, false, false);
+		$this->Image("assets/img/logo_upc.png", 180, 10, 0, 0, 'PNG', '', '', false, 150, '', false, false, 0, false, false, false);
 	}
 	
 	function strtolower_utf8($string){ 

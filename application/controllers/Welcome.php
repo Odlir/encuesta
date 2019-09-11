@@ -146,8 +146,9 @@ class Welcome extends CI_Controller {
 		$mail->SMTPSecure = 'tls';//tls or ssl
 		$mail->Host     = 'mail.gaf.com.pe';//'smtp.example.com';
 		$mail->Username = 'rildo.gomez@gaf.com.pe';
-		$mail->Password = 'rtqDKYM6';
+		$mail->Password = 'rildo2019';
 		$mail->Port     = 587; //587 or 465
+		$mail->CharSet = "UTF-8";
 
 		$mail->setFrom('rildo.gomez@gaf.com.pe');
 		$mail->addReplyTo('rildo.gomez@gaf.com.pe');
@@ -159,21 +160,24 @@ class Welcome extends CI_Controller {
 		/*$mail->addCC('cc@example.com');
 		$mail->addBCC('bcc@example.com');*/
 
-		$mail->Subject = 'Resultado Test UPC';
+		$attachment =  $this->createpdf(10, 'S');
+		$mail->addStringAttachment($attachment, $alumno[0]->nombre . '_' . $alumno[0]->apellido.'.pdf');
+
+		$mail->Subject = 'Resultado Instrumento de Exploración Vocacional UPC';
 		$mail->isHTML(true);
 
-		$mailContent = $this->load->view('mail', $data , TRUE);
+		$mailContent = $this->load->view('mailer', $data , TRUE);
 		$mail->Body = $mailContent;
 
-		/*if(!$mail->send()){
+		if(!$mail->send()){
 			echo 'Message could not be sent.';
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		}else{
 			echo 'Message has been sent';
-		}*/
+		}
 	}
 
-	public function createpdf($id){
+	public function createpdf($id, $vista = 'D'){
 		$alumno = $this->carreras_model->getAlumnoById($id);
 		$carreras = $this->carreras_model->getCarreraLast($id);
 		$carrera = $this->carreras_model->getCarreraById($carreras[0]->carrera_id);
@@ -202,27 +206,12 @@ class Welcome extends CI_Controller {
 		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
 		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
 		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
 		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
 		$pdf->setFontSubsetting(true);
-
 		$pdf->SetFont('Helvetica', '', 12, '', true);
-
 		$pdf->Open();
 		$pdf->AddPage();
-
-		$style = array(
-			'border' => 0,
-			'vpadding' => 'auto',
-			'hpadding' => 'auto',
-			'fgcolor' => array(0,0,0),
-			'bgcolor' => false, //array(255,255,255)
-			'module_width' => 1, // width of a single module in points
-			'module_height' => 1 // height of a single module in points
-		);
 
 		$pdf->SetFont('helvetica', 'b', 14);
 		$pdf->setLineWidth(14);
@@ -230,35 +219,38 @@ class Welcome extends CI_Controller {
 
 		$pdf->SetFont('helvetica', 'b', 12);
 		$pdf->setLineWidth(14);
-		$pdf->Text(35,55,'Nombre de postulante: '.$alumno[0]->nombre.' '.$alumno[0]->apellido,FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,55,'Nombre de postulante: '.$alumno[0]->nombre.' '.$alumno[0]->apellido ,FALSE,FALSE,TRUE,0,0,'L');
 		$pdf->Text(35,65,'Fecha de evaluación: '. date("d-m-Y", strtotime($alumno[0]->fecha_reg)),FALSE,FALSE,TRUE,0,0,'L');
 
 		$pdf->Text(35,70,'______________________________________________________________',FALSE,FALSE,TRUE,0,0,'L');
 
 		$pdf->SetFont('helvetica', '', 10);
 		$pdf->setLineWidth(14);
-		$pdf->Text(35,80,'Los resultados obtenidos en el Instrumento de Exploración Vocacional, nos llevan',FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->Text(35,85,'a recomendarte las siguientes profesiones que potenciarán tu talento y vida con ',FALSE,FALSE,TRUE,0,0,'L');
-		$pdf->Text(35,90,'pasión: ',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,80,'Los resultados obtenidos en el Instrumento de Exploración Vocacional, nos llevan a',FALSE,FALSE,TRUE,0,0,'L');
+		$pdf->Text(35,85,'recomendarte las siguientes profesiones que potenciarán tu talento:',FALSE,FALSE,TRUE,0,0,'L');
 
 		$mailContent = $this->load->view('mail', $data , TRUE);
-		$pdf->writeHTMLCell(140,'','35','75', $mailContent,'','','','','','');
+		$pdf->writeHTMLCell(140,'','35','65', $mailContent,'','','','','','');
 
-		$pdf->Output('PDF/Reporte.pdf', 'I');
+		if($vista = 'S'){
+			return $pdf->Output($nombres.'.pdf', 'S');
+		}else{
+			$pdf->Output($nombres.'.pdf', 'D');
+		}
+
 	}
 
-	public function pdf($id){
-		$alumno = $this->carreras_model->getAlumnoById($id);
-		$carreras = $this->carreras_model->getCarreraLast($id);
-		$carrera = $this->carreras_model->getCarreraById($carreras[0]->carrera_id);
-		$carrera1 = $this->carreras_model->getCarreraById($carreras[1]->carrera_id);
-		$carrera2 = $this->carreras_model->getCarreraById($carreras[2]->carrera_id);
+	public function mail($alumno_id, $id, $id1, $id2){
+		$alumno = $this->carreras_model->getAlumnoById($alumno_id);
+		$carrera = $this->carreras_model->getCarreraById($id);
+		$carrera1 = $this->carreras_model->getCarreraById($id1);
+		$carrera2 = $this->carreras_model->getCarreraById($id2);
 		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
 		$data['alumno'] = $nombres;
 		$data['carrera'] = $carrera;
 		$data['carrera1'] = $carrera1;
 		$data['carrera2'] = $carrera2;
-		$this->load->view('mail', $data);
+		$this->load->view('mailer', $data);
 	}
 
 }
