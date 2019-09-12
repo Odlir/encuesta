@@ -86,11 +86,11 @@
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<div class="rs-select2 js-select-simple2 select--no-search">
+									<div class="rs-select2 js-select-simple select--no-search">
 										<select id="egreso" name="egreso" class="required" required>
 											<option disabled="disabled" selected="selected">AÑO DE EGRESO*</option>
 											<?php foreach ($years as $y):?>
-												<option value="<?php echo $y;?>"><?php echo $y;?></option>
+												<option value="<?php echo $y;?>" <?php echo ($y==$year)?'selected':'';?>><?php echo $y;?></option>
 											<?php endforeach; ?>
 										</select>
 										<div class="select-dropdown"></div>
@@ -121,7 +121,8 @@
 						<div class="row row-space">
 							<div class="col-2">
 								<div class="input-group">
-									<input class="input--style-1 required" maxlength="50" type="email" placeholder="EMAIL*" name="email" required>
+									<input class="input--style-1 required" maxlength="50" type="email" placeholder="EMAIL*" name="email" id="email" required>
+									<span id="emailspan" value="0"></span>
 								</div>
 							</div>
 							<div class="col-2">
@@ -148,9 +149,11 @@
 	<script src="<?php echo base_url();?>assets/js/global.js"></script>
 	<script>
         $(document).ready(function() {
-            $("#egreso").select2();
             getUbigeo();
             $("#registro").click(function(ev){
+                if (emailCheck())
+                    return false;
+
 	            if (!check_required_inputs()){
                     Swal.fire(
                         '',
@@ -210,6 +213,19 @@
                 }
             });
             $("#distrito_col").select2();
+        }
+        
+        function emailCheck() {
+            var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+            var emailaddress = $('#email').val();
+            var ret = true;
+            if(!emailReg.test(emailaddress)){
+                $("#emailspan").html('<font color="#cc0000">Please enter valid Email address</font>');
+            }else{
+                $("#emailspan").html('<font color="#cc0000"></font>');
+                ret = false;
+            }
+            return ret;
         }
 	</script>
 </body>

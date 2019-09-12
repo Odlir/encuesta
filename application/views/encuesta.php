@@ -13,7 +13,7 @@
 	<link href="<?php echo base_url();?>assets/css/daterangepicker.css" rel="stylesheet" media="all">
 	<!--iop-->
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/preload.css">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/css.css?v1.0.2">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/css.css?v1.0.3">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/image-picker.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jcarousel.responsive.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery-ui.css">
@@ -63,17 +63,19 @@
 			max-width: 240px !important;
 		}
 		#mas{
-			width: 30%;
+			width: 31%;
 			padding-right: 0px;
 			padding-left: 0px;
 		}
 		#intermedio{
-			width: 30%;
+			width: 31%;
 			padding-right: 0px;
 			padding-left: 0px;
+			margin-left: 1%;
+			margin-right: 1%;
 		}
 		#menos{
-			width: 30%;
+			width: 31%;
 			padding-right: 0px;
 			padding-left: 0px;
 		}
@@ -189,7 +191,7 @@
 
 									<div class="container">
 										<div class="row d-flex justify-content-center">
-											<div id="mas" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+											<div id="mas" class="ui-widget-content ui-state-default buzones">
 												<h4 class="buzones-header">(+) Más Interés (12)</h4>
 												<div class="ui-widget-content">
 													<ol id="max" class="connectedSortable">
@@ -197,7 +199,7 @@
 													</ol>
 												</div>
 											</div>
-											<div id="intermedio" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+											<div id="intermedio" class="ui-widget-content ui-state-default buzones">
 												<h4 class="buzones-header">Interés Intermedio</h4>
 												<div class="ui-widget-content">
 													<ol id="mid" class="connectedSortable">
@@ -205,7 +207,7 @@
 													</ol>
 												</div>
 											</div>
-											<div id="menos" class="ui-widget-content ui-state-default buzones col-md-3 col-sm-3">
+											<div id="menos" class="ui-widget-content ui-state-default buzones">
 												<h4 class="buzones-header">(-) Menos Interés</h4>
 												<div class="ui-widget-content">
 													<ol id="min" class="connectedSortable">

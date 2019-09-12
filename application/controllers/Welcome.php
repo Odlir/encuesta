@@ -1,6 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+require 'vendor/autoload.php';
+use \Mailjet\Resources;
 class Welcome extends CI_Controller {
 
 	public function __construct(){
@@ -15,6 +16,7 @@ class Welcome extends CI_Controller {
 		for ($x=$year-2; $x <= $year+2; $x++){
 			$years[] = $x;
 		}
+		$data['year'] = $year;
 		$data['titulo'] = 'UPC';
 		$data['years'] = $years;
 		$this->load->view('welcome_message', $data);
@@ -112,7 +114,8 @@ class Welcome extends CI_Controller {
 		$data['alu_id'] = $alumno_id;
 		$this->carreras_model->deleteLastoptions($alumno_id);
 		$this->carreras_model->insertCarreraFinal($alumno_id, $id[1], $id1[1], $id2[1]);
-		$this->enviarCorreo($alumno_id, $id[1], $id1[1], $id2[1]);
+		$mailSend = $this->jmail($alumno_id, $id[1], $id1[1], $id2[1]);
+		$this->carreras_model->updateEstadoMail($alumno_id, ($mailSend)?'1':'0');
 		$this->load->view('stepThree', $data);
 	}
 
@@ -163,7 +166,7 @@ class Welcome extends CI_Controller {
 		/*$mail->addCC('cc@example.com');*/
 		$mail->addBCC('humberto.gutierrezh@hotmail.com');
 
-		$attachment =  $this->createpdf(10, 'S');
+		$attachment =  $this->createpdf($alumno_id, 'S');
 		$mail->addStringAttachment($attachment, $alumno[0]->nombre . '_' . $alumno[0]->apellido.'.pdf');
 
 		$mail->Subject = 'Resultado Instrumento de Exploración Vocacional UPC';
@@ -235,7 +238,7 @@ class Welcome extends CI_Controller {
 		$mailContent = $this->load->view('mail', $data , TRUE);
 		$pdf->writeHTMLCell(140,'','35','65', $mailContent,'','','','','','');
 
-		if($vista = 'S'){
+		if($vista == 'S'){
 			return $pdf->Output($nombres.'.pdf', 'S');
 		}else{
 			$pdf->Output($nombres.'.pdf', 'D');
@@ -254,6 +257,53 @@ class Welcome extends CI_Controller {
 		$data['carrera1'] = $carrera1;
 		$data['carrera2'] = $carrera2;
 		$this->load->view('mailer', $data);
+	}
+
+	public function jmail($alumno_id, $id, $id1, $id2){
+		$alumno = $this->carreras_model->getAlumnoById($alumno_id);
+		$carrera = $this->carreras_model->getCarreraById($id);
+		$carrera1 = $this->carreras_model->getCarreraById($id1);
+		$carrera2 = $this->carreras_model->getCarreraById($id2);
+
+		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
+		$data['alumno'] = $nombres;
+		$data['carrera'] = $carrera;
+		$data['carrera1'] = $carrera1;
+		$data['carrera2'] = $carrera2;
+
+		$mj = new \Mailjet\Client('0b48a1d28754c4e80c8a0cb4d9680256','71ac82232962ecac6dee66cf2909714f',true, array('version' => 'v3.1'));
+		$attachment =  $this->createpdf($alumno_id, 'S');
+		$mailContent = $this->load->view('mailer', $data , TRUE);
+		$body = array(
+			'Messages' => array(
+				array(
+					'From' => array(
+						'Email' => "encuestas.upc@gaf.com.pe",
+						'Name' => "UPC - IEVocacional"
+					),
+					'To' => array(
+						array(
+							'Email' => $alumno[0]->email,
+							'Name' => $nombres
+						)
+					),
+					'Subject' => "Resultado Instrumento de Exploración Vocacional UPC",
+					'TextPart' => "UPC",
+					'HTMLPart' => $mailContent,
+					'CustomID' => "AppGettingStartedTest",
+					'Attachments' => array(
+						array(
+							'ContentType' => "application/pdf",
+							'Filename' => $nombres.".pdf",
+							'Base64Content' => base64_encode($attachment)
+						)
+					)
+				)
+			)
+		);
+
+		$response = $mj->post(Resources::$Email, array('body' => $body));
+		return $response->success();
 	}
 
 }

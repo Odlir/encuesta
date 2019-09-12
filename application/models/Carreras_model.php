@@ -81,4 +81,12 @@ class Carreras_model extends CI_Model{
 		return $query->result();
 	}
 
+	function updateEstadoMail($id, $estado){
+		$data = array(
+			'sendmail' => $estado
+		);
+		$this->db->where('id', $id);
+		$this->db->update('alumnos', $data);
+	}
+
 }
