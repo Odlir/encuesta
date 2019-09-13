@@ -9,19 +9,39 @@ class Alumnos_model extends CI_Model{
 		$this->load->database();
 	}
 
-	function getAlumnos($s, $o, $start, $length){
+	function getAlumnos($search){
 		$this->db->select('*');
-		if (!empty($s)){
-			$this->db->like('nombre', $s);
-			$this->db->like('apellido', $s);
-			$this->db->like('colegio', $s);
-			$this->db->like('email', $s);
-			$this->db->like('dni', $s);
+		$this->db->order_by('id', 'desc');
+		if ($search != ''){
+			$this->db->or_like('nombre', $search);
+			$this->db->or_like('apellido', $search);
+			$this->db->or_like('email', $search);
+			$this->db->or_like('colegio', $search);
+			$this->db->or_like('dni', $search);
 		}
-		$this->db->order_by($o['column'], $o['dir']);
-		$this->db->limit($start, $length);
-		$query = $this->db->get('alumnos1');
+		$query = $this->db->get('alumnos');
 		return $query->result();
 	}
+
+	function getAlumnos1($start, $length, $search){
+		$this->db->select('*');
+		$this->db->order_by('id', 'desc');
+		$this->db->limit($start, $length);
+		if ($search != ''){
+			$this->db->or_like('nombre', $search);
+			$this->db->or_like('apellido', $search);
+			$this->db->or_like('email', $search);
+			$this->db->or_like('colegio', $search);
+			$this->db->or_like('dni', $search);
+		}
+		$query = $this->db->get('alumnos');
+		return $query->result();
+	}
+
+	function getCarreras($id){
+		$query = $this->db->where('alumno_id', $id)->get('carrera_final');
+		return $query->result();
+	}
+
 
 }
