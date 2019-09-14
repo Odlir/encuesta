@@ -19,6 +19,7 @@ class Alumnos_model extends CI_Model{
 			$this->db->or_like('colegio', $search);
 			$this->db->or_like('dni', $search);
 		}
+		$this->db->where('sendmail', 1);
 		$query = $this->db->get('alumnos');
 		return $query->result();
 	}
@@ -34,6 +35,7 @@ class Alumnos_model extends CI_Model{
 			$this->db->or_like('colegio', $search);
 			$this->db->or_like('dni', $search);
 		}
+		$this->db->where('sendmail', 1);
 		$query = $this->db->get('alumnos');
 		return $query->result();
 	}
@@ -43,5 +45,10 @@ class Alumnos_model extends CI_Model{
 		return $query->result();
 	}
 
+	function getTotal(){
+		$this->db->select('count(*) as total');
+		$query = $this->db->get('alumnos');
+		return $query->result();
+	}
 
 }

@@ -24,15 +24,15 @@ class Welcome extends CI_Controller {
 
 	public function validar(){
 		$objeto = new stdClass();
-		$objeto->nombre = $this->input->post('nombres');
-		$objeto->apellido = $this->input->post('apellidos');
+		$objeto->nombre = strtoupper($this->input->post('nombres'));
+		$objeto->apellido = strtoupper($this->input->post('apellidos'));
 		$objeto->sexo = $this->input->post('genero');
 		$objeto->email = $this->input->post('email');
-		$objeto->colegio = $this->input->post('colegio');
+		$objeto->colegio = strtoupper($this->input->post('colegio'));
 		$objeto->ubigeo_colegio = $this->input->post('distrito_col');
 		$objeto->year_egreso = $this->input->post('egreso');
 		$objeto->dni = $this->input->post('dni');
-		$objeto->domicio = $this->input->post('domicilio');
+		$objeto->domicio = strtoupper($this->input->post('domicilio'));
 		$objeto->celular = $this->input->post('celular');
 		$objeto->cel_apoderado = $this->input->post('cel_apoderado');
 		$objeto->telf_fijo = $this->input->post('tel_fijo');
@@ -306,6 +306,19 @@ class Welcome extends CI_Controller {
 		return $response->success();
 	}
 
+	public function mailer($alumno_id, $id, $id1, $id2){
+		$alumno = $this->carreras_model->getAlumnoById($alumno_id);
+		$carrera = $this->carreras_model->getCarreraById($id);
+		$carrera1 = $this->carreras_model->getCarreraById($id1);
+		$carrera2 = $this->carreras_model->getCarreraById($id2);
+
+		$nombres = $alumno[0]->nombre . ' ' . $alumno[0]->apellido;
+		$data['alumno'] = $nombres;
+		$data['carrera'] = $carrera;
+		$data['carrera1'] = $carrera1;
+		$data['carrera2'] = $carrera2;
+		$mailContent = $this->load->view('mailer', $data);
+	}
 }
 
 

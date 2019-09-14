@@ -133,7 +133,7 @@
 												<div class="row d-flex justify-content-center">
 													<div class="col-md-7">
 														<div class="btn-group">
-															<button onclick="atras()" type="button" class="atras btn btn-secondary btn-xs"><< Atras</button>
+															<button onclick="atras()" type="button" class="atras btn btn-secondary btn-xs"><< Atrás</button>
 														</div>
 														<div class="btn-group">
 															<button onclick="next()" id="continuar" type="button" class="derecha btn btn-secondary btn-xs">Continuar &rsaquo;&rsaquo;</button>

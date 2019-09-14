@@ -7,7 +7,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<link rel="icon" type="image/png" href="<?php echo base_url();?>assets/img/logo_upc.png"/>
-	<link href="<?php echo base_url();?>assets/css/font-awesome.min.css" rel="stylesheet" media="all">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="all">
 	<link href="<?php echo base_url('assets/css/bootstrap.min.css')?>" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 	<style>
@@ -25,8 +25,8 @@
 			</div>
 		</div>
 		<br />
-		<div class="row">
-			<div class="col-12">
+		<div class="row d-flex">
+			<div class="col-6">
 				<form method="post" action="<?php echo base_url();?>index.php/evaluados/"">
 					<div class="input-group mb-3">
 						<input name="search" type="text" class="form-control" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="button-addon2">
@@ -36,10 +36,13 @@
 					</div>
 				</form>
 			</div>
+			<div class="col-6 align-self-center">
+				<span>Cantidad de Alumnos: <?php echo $total;?></span>
+			</div>
 			<table id="example" class="table table-striped table-bordered" style="width:100%">
 				<thead class="thead-light">
 				<tr align="center">
-					<th>#</th>
+					<th>ID</th>
 					<th>Nombres</th>
 					<th>DNI</th>
 					<th>Celular</th>
@@ -54,7 +57,7 @@
 				</thead>
 				<?php foreach ($data as $i => $d){ ?>
 					<tr>
-						<td><?php echo $i+1; ?></td>
+						<td><?php echo $d->id; ?></td>
 						<td><?php echo $d->nombre. ' ' . $d->apellido; ?></td>
 						<td><?php echo $d->dni; ?></td>
 						<td><?php echo $d->celular; ?></td>

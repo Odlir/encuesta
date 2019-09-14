@@ -357,9 +357,9 @@
                 });
             }else {
                 Swal.fire(
-                    '',
-                    '¡Por Favor, seleccionar 12 carreras con más interes! Moviendo las carreras entre los buzones',
-                    'success'
+                    '¡Por Favor, seleccionar 12 carreras con más interes! Moviendo las carreras entre los buzones.',
+                    'Luego dar click en "Continuar"',
+	                'warning'
                 ).then((res)=>{
                     return false;
                 });

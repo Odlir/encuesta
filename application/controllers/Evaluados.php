@@ -16,6 +16,8 @@ class Evaluados extends CI_Controller {
 	public function index($p = 0){
 		$search = trim($this->input->post('search'));
 
+		$total = $this->alumnos_model->getTotal();
+		$data['total'] = $total[0]->total;
 		$config = array();
 		$config["base_url"] = site_url("evaluados/index");
 		$config["per_page"] = 10;
@@ -73,7 +75,6 @@ class Evaluados extends CI_Controller {
 		$mailSend = $this->jmail($alumno_id, $data[0]->carrera_id, $data[1]->carrera_id, $data[2]->carrera_id);
 		$this->carreras_model->updateEstadoMail($alumno_id, ($mailSend)?'1':'0');
 	}
-
 
 	public function jmail($alumno_id, $id, $id1, $id2){
 		$alumno = $this->carreras_model->getAlumnoById($alumno_id);

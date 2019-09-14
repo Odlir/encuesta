@@ -25,7 +25,7 @@
 	</div>
 	<div class="row justify-content-center">
 		<div class="alert alert-info" role="alert">
-			Se ha enviado un reporte de este Test a tú correo electrónico registrado.
+			Se ha enviado un reporte de este reporte a tú correo electrónico registrado.
 		</div>
 	</div>
 	<div class="row">

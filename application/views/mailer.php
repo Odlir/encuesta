@@ -17,10 +17,38 @@
 					<br>
 					Estamos seguros que esta información será valiosa para ti. <br> <br>
 					Éxitos en la carrera que emprendas con nosotros. <br> <br>
-					Saludos cordiales,<br> <br>
-					Prospección Pre Grado <br>
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UPC
 				</p>
+				<table>
+					<tr>
+						<td>
+							<img src="https://gaf.com.pe/upc/assets/img/logo_upc.png">
+						</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>
+							&nbsp;
+						</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td style="font-weight: bold;">Prospección Pre grado</td>
+					</tr>
+					<tr>
+						<td style="color: red; font-weight: bold">UPC</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td>511 313-3333</td>
+					</tr>
+					<tr>
+						<td style="color: red;font-weight: bold">Universidad Peruana</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td>Prolongación Primavera 2390</td>
+					</tr>
+					<tr>
+						<td style="color: red;font-weight: bold">de Ciencias Aplicadas</td>
+						<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						<td>Monterrico, Santiago de Surco</td>
+					</tr>
+				</table>
 			</div>
 		</div>
 	</div>
